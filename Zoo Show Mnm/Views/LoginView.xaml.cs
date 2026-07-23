@@ -186,29 +186,36 @@ namespace Zoo_Show_Mnm.Views
                 return;
             }
 
-            using (var db = new ApplicationDbContext())
+            try
             {
-                var usernameExists = await db.Users.AnyAsync(u => u.Username.ToLower() == username.ToLower());
-                if (usernameExists)
+                using (var db = new ApplicationDbContext())
                 {
-                    ShowError("Tên đăng nhập này đã được đăng ký.");
-                    return;
+                    var usernameExists = await db.Users.AnyAsync(u => u.Username.ToLower() == username.ToLower());
+                    if (usernameExists)
+                    {
+                        ShowError("Tên đăng nhập này đã được đăng ký.");
+                        return;
+                    }
+
+                    var visitor = new User
+                    {
+                        Name = name,
+                        Username = username.ToLower(),
+                        PasswordHash = BCrypt.Net.BCrypt.HashPassword(password),
+                        Role = "Visitor",
+                        IsTemporaryPassword = false,
+                        IsDeactivated = false
+                    };
+
+                    db.Users.Add(visitor);
+                    await db.SaveChangesAsync();
+
+                    LoginSuccess?.Invoke(this, visitor);
                 }
-
-                var visitor = new User
-                {
-                    Name = name,
-                    Username = username.ToLower(),
-                    PasswordHash = BCrypt.Net.BCrypt.HashPassword(password),
-                    Role = "Visitor",
-                    IsTemporaryPassword = false,
-                    IsDeactivated = false
-                };
-
-                db.Users.Add(visitor);
-                await db.SaveChangesAsync();
-
-                LoginSuccess?.Invoke(this, visitor);
+            }
+            catch (Exception ex)
+            {
+                ShowError($"Lỗi đăng ký: {ex.InnerException?.Message ?? ex.Message}");
             }
         }
 

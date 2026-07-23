@@ -139,7 +139,7 @@
                             <DataGridTextColumn Header="Số vé" Binding="{Binding TicketQuantity}" Width="60"/>
                             <DataGridTextColumn Header="Doanh thu" Binding="{Binding TotalPrice, StringFormat='${0:F2}'}" Width="90"/>
                             <DataGridTextColumn Header="Kênh" Binding="{Binding BookingChannel}" Width="80"/>
-                            <DataGridTextColumn Header="Trạng thái" Binding="{Binding BookingStatus}" Width="80"/>
+                            <DataGridTextColumn Header="Trạng thái" Binding="{Binding StatusDisplay}" Width="80"/>
                         </DataGrid.Columns>
                     </DataGrid>
 
@@ -158,10 +158,17 @@
 
                 <!-- Footer Stats -->
                 <Border Grid.Row="3" Background="White" BorderBrush="DarkGray" BorderThickness="1" CornerRadius="5" Padding="12" Margin="0,15,0,0">
-                    <Grid>
-                        <TextBlock x:Name="TxtReportStat1" Text="Tổng lượt đặt: 0" VerticalAlignment="Center" Foreground="Black" FontWeight="Bold"/>
-                        <TextBlock x:Name="TxtReportStat2" Text="Tổng doanh thu: $0.00" HorizontalAlignment="Right" FontSize="14" FontWeight="Bold" Foreground="Green"/>
-                    </Grid>
+                    <StackPanel>
+                        <Grid Margin="0,0,0,5">
+                            <TextBlock x:Name="TxtReportStat1" Text="Tổng lượt đặt: 0" VerticalAlignment="Center" Foreground="Black" FontWeight="Bold"/>
+                            <TextBlock x:Name="TxtReportStat2" Text="Tổng doanh thu: $0.00" HorizontalAlignment="Right" FontSize="14" FontWeight="Bold" Foreground="Green"/>
+                        </Grid>
+                        <Separator Margin="0,5"/>
+                        <Grid Margin="0,5,0,0">
+                            <TextBlock x:Name="TxtBestSeller" Text="Show bán chạy nhất: N/A" Foreground="DarkBlue" FontWeight="SemiBold"/>
+                            <TextBlock x:Name="TxtWorstSeller" Text="Show ít vé nhất: N/A" HorizontalAlignment="Right" Foreground="DarkOrange" FontWeight="SemiBold"/>
+                        </Grid>
+                    </StackPanel>
                 </Border>
             </Grid>
 

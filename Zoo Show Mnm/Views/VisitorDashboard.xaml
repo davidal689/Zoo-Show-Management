@@ -27,7 +27,7 @@
                     <RadioButton x:Name="TabHistory" Content="Vé của tôi" Checked="Tab_Checked" Height="35"/>
                 </StackPanel>
 
-                <Button Grid.Row="2" Content="Đăng xuất" Click="BtnLogout_Click" Height="30"/>
+                <Button Grid.Row="2" x:Name="BtnLogout" Content="Đăng xuất" Click="BtnLogout_Click" Height="30"/>
             </Grid>
         </Border>
 
@@ -79,7 +79,35 @@
                                 
                                 <TextBlock x:Name="DetailsVenue" Text="Địa điểm: Splash Amphitheater" Foreground="Black" FontSize="12" Margin="0,0,0,5"/>
                                 <TextBlock x:Name="DetailsDateTime" Text="Thời gian: 12/12/2026 14:00" Foreground="Black" FontSize="12" Margin="0,0,0,5"/>
-                                <TextBlock x:Name="DetailsSeats" Text="Ghế còn trống: 100" Foreground="Black" FontSize="12" Margin="0,0,0,15"/>
+                                <TextBlock x:Name="DetailsSeats" Text="Ghế còn trống: 100" Foreground="Black" FontSize="12" Margin="0,0,0,10"/>
+                                
+                                <TextBlock Text="Sơ đồ ghế ngồi:" FontWeight="Bold" FontSize="12" Margin="0,0,0,5" Foreground="Black"/>
+                                <Border BorderBrush="LightGray" BorderThickness="1" Background="#FAFAFA" CornerRadius="4" Padding="10" Margin="0,0,0,15">
+                                    <StackPanel>
+                                        <!-- Legends -->
+                                        <UniformGrid Columns="4" Margin="0,0,0,10">
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                                <Border Width="10" Height="10" Background="White" BorderBrush="DarkGray" BorderThickness="1" Margin="0,0,2,0"/>
+                                                <TextBlock Text="Trống" FontSize="9" VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                                <Border Width="10" Height="10" Background="Red" BorderBrush="DarkRed" BorderThickness="1" Margin="0,0,2,0"/>
+                                                <TextBlock Text="Đã đặt" FontSize="9" VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                                <Border Width="10" Height="10" Background="Yellow" BorderBrush="Goldenrod" BorderThickness="1" Margin="0,0,2,0"/>
+                                                <TextBlock Text="Đang giữ" FontSize="9" VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                                <Border Width="10" Height="10" Background="DodgerBlue" BorderBrush="DarkBlue" BorderThickness="1" Margin="0,0,2,0"/>
+                                                <TextBlock Text="Đang chọn" FontSize="9" VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                        </UniformGrid>
+                                        
+                                        <!-- Seat Map dynamic container -->
+                                        <WrapPanel x:Name="PanelSeatMap" ItemWidth="18" ItemHeight="18" HorizontalAlignment="Center"/>
+                                    </StackPanel>
+                                </Border>
 
                                 <!-- Purchase view state -->
                                 <StackPanel x:Name="PanelPurchaseForm">
@@ -91,7 +119,7 @@
                                             <ColumnDefinition Width="Auto"/>
                                         </Grid.ColumnDefinitions>
                                         <Button Grid.Column="0" Content="-" Click="BtnQtyDec_Click" Width="30" Height="26"/>
-                                        <TextBox Grid.Column="1" x:Name="TxtQty" Text="1" TextAlignment="Center" Height="26" Margin="5,0" VerticalContentAlignment="Center"/>
+                                        <TextBox Grid.Column="1" x:Name="TxtQty" Text="1" TextAlignment="Center" Height="26" Margin="5,0" VerticalContentAlignment="Center" IsReadOnly="True"/>
                                         <Button Grid.Column="2" Content="+" Click="BtnQtyInc_Click" Width="30" Height="26"/>
                                     </Grid>
 
@@ -135,11 +163,14 @@
                         <DataGridTextColumn Header="Ngày đặt vé" Binding="{Binding BookingDate, StringFormat='MM/dd hh:mm tt'}" Width="120"/>
                         <DataGridTextColumn Header="Số lượng" Binding="{Binding TicketQuantity}" Width="60"/>
                         <DataGridTextColumn Header="Tổng tiền" Binding="{Binding TotalPrice, StringFormat='${0:F2}'}" Width="80"/>
-                        <DataGridTextColumn Header="Trạng thái" Binding="{Binding BookingStatus}" Width="90"/>
+                        <DataGridTextColumn Header="Trạng thái" Binding="{Binding StatusDisplay}" Width="90"/>
                     </DataGrid.Columns>
                 </DataGrid>
 
-                <Button Grid.Row="2" x:Name="BtnCancelBooking" Content="Yêu cầu hủy vé này" Click="BtnCancelBooking_Click" HorizontalAlignment="Left" Width="180" Height="32"/>
+                <StackPanel Grid.Row="2" Orientation="Horizontal">
+                    <Button x:Name="BtnCancelBooking" Content="Yêu cầu hủy vé này" Click="BtnCancelBooking_Click" Width="180" Height="32" Margin="0,0,10,0"/>
+                    <Button x:Name="BtnPayPending" Content="Thanh toán vé này" Click="BtnPayPending_Click" Width="180" Height="32" Background="Green" Foreground="White" FontWeight="Bold"/>
+                </StackPanel>
             </Grid>
         </Grid>
     </Grid>

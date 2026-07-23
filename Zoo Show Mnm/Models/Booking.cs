@@ -33,12 +33,19 @@ namespace Zoo_Show_Mnm.Models
         [StringLength(7)]
         public string BookingChannel { get; set; } = "Online"; // Online, Counter
 
-        public int? VisitorAccountId { get; set; }
-        public virtual User? VisitorAccount { get; set; }
-
-        public int? IssuingCashierId { get; set; }
-        public virtual User? IssuingCashier { get; set; }
+        public int? UserAccountId { get; set; }
+        public virtual User? UserAccount { get; set; }
         
         public string? WalkInVisitorName { get; set; }
+        
+        public string? SelectedSeats { get; set; }
+
+        public string StatusDisplay => BookingStatus switch
+        {
+            "Pending" => "Đang giữ",
+            "Confirmed" => "Đã đặt",
+            "Cancelled" => "Đã hủy",
+            _ => BookingStatus
+        };
     }
 }

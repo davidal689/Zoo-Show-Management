@@ -31,16 +31,31 @@ namespace Zoo_Show_Mnm
             using (var db = new ApplicationDbContext())
             {
                 DbInitializer.Initialize(db);
+
+                // Auto-repair potentially corrupted password hashes in SQL Server database
+                var admin = db.Users.FirstOrDefault(u => u.Username == "admin");
+                if (admin != null) admin.PasswordHash = BCrypt.Net.BCrypt.HashPassword("admin123");
+
+                var manager = db.Users.FirstOrDefault(u => u.Username == "manager");
+                if (manager != null) manager.PasswordHash = BCrypt.Net.BCrypt.HashPassword("manager123");
+
+                var cashier = db.Users.FirstOrDefault(u => u.Username == "cashier");
+                if (cashier != null) cashier.PasswordHash = BCrypt.Net.BCrypt.HashPassword("cashier123");
+
+                var visitor = db.Users.FirstOrDefault(u => u.Username == "visitor");
+                if (visitor != null) visitor.PasswordHash = BCrypt.Net.BCrypt.HashPassword("visitor123");
+
+                db.SaveChanges();
             }
 
             // Start background seat lock release timer (ticks every 30 seconds)
             StartBackgroundLockCleaner();
 
-            // Display Login Screen
-            ShowLoginScreen();
+            // Display Show List (Guest Mode) by default
+            ShowVisitorDashboard(null);
         }
 
-        private void ShowLoginScreen()
+        public void ShowLoginScreen()
         {
             _loginView = new LoginView();
             _loginView.LoginSuccess += LoginView_LoginSuccess;
@@ -53,9 +68,7 @@ namespace Zoo_Show_Mnm
             switch (user.Role)
             {
                 case "Visitor":
-                    _visitorDashboard = new VisitorDashboard { CurrentUser = user };
-                    ContentArea.Content = _visitorDashboard;
-                    _visitorDashboard.LoadData();
+                    ShowVisitorDashboard(user);
                     break;
                     
                 case "Show Manager":
@@ -83,9 +96,16 @@ namespace Zoo_Show_Mnm
             }
         }
 
+        public void ShowVisitorDashboard(User? user)
+        {
+            _visitorDashboard = new VisitorDashboard { CurrentUser = user };
+            ContentArea.Content = _visitorDashboard;
+            _visitorDashboard.LoadData();
+        }
+
         public void LogOut()
         {
-            ShowLoginScreen();
+            ShowVisitorDashboard(null);
         }
 
         private void StartBackgroundLockCleaner()
@@ -120,6 +140,17 @@ namespace Zoo_Show_Mnm
                                     seatLock.Show.SeatCapacity, 
                                     seatLock.Show.RemainingSeatCapacity + seatLock.TicketQuantity
                                 );
+                            }
+
+                            // Cancel associated pending bookings
+                            var pendingBookings = await db.Bookings
+                                .Where(b => b.ShowId == seatLock.ShowId && 
+                                            b.BookingStatus == "Pending" && 
+                                            b.SelectedSeats == seatLock.SelectedSeats)
+                                .ToListAsync();
+                            foreach (var b in pendingBookings)
+                            {
+                                b.BookingStatus = "Cancelled";
                             }
                         }
                         await db.SaveChangesAsync();

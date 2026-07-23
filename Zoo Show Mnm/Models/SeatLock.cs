@@ -11,13 +11,12 @@ namespace Zoo_Show_Mnm.Models
         
         public int TicketQuantity { get; set; }
         
-        // Use a static session token or machine identifier for WPF desktop checkout session
-        public string SessionId { get; set; } = string.Empty;
-        
-        public DateTime CreatedAt { get; set; }
+        public string LockedBySession { get; set; } = string.Empty;
         
         public DateTime ExpiresAt { get; set; }
         
         public bool IsReleased { get; set; } = false;
+        
+        public string? SelectedSeats { get; set; }
     }
 }

@@ -158,6 +158,7 @@ namespace Zoo_Show_Mnm.Views
                 CbStaffRole.SelectedIndex = -1;
 
                 LoadStaff();
+                LoadAuditLogs();
             }
         }
 
@@ -191,6 +192,7 @@ namespace Zoo_Show_Mnm.Views
                     await db.SaveChangesAsync();
 
                     LoadStaff();
+                    LoadAuditLogs();
                 }
             }
         }
@@ -234,6 +236,28 @@ namespace Zoo_Show_Mnm.Views
                     
                     TxtReportStat1.Text = $"Tổng lượt đặt: {totalBookings} (Thành công: {report.Count(b => b.BookingStatus == "Confirmed")})";
                     TxtReportStat2.Text = $"Tổng doanh thu: {totalRev:C}";
+
+                    // Calculate best and worst show sales from bookings
+                    var confirmedBookings = report.Where(b => b.BookingStatus == "Confirmed" && b.Show != null).ToList();
+                    if (confirmedBookings.Any())
+                    {
+                        var showSales = confirmedBookings
+                            .GroupBy(b => b.Show!.Name)
+                            .Select(g => new { ShowName = g.Key, TotalSold = g.Sum(b => b.TicketQuantity) })
+                            .OrderByDescending(x => x.TotalSold)
+                            .ToList();
+
+                        var best = showSales.First();
+                        var worst = showSales.Last();
+
+                        TxtBestSeller.Text = $"Show bán chạy nhất: {best.ShowName} ({best.TotalSold} vé)";
+                        TxtWorstSeller.Text = $"Show ít vé nhất: {worst.ShowName} ({worst.TotalSold} vé)";
+                    }
+                    else
+                    {
+                        TxtBestSeller.Text = "Show bán chạy nhất: Không có dữ liệu";
+                        TxtWorstSeller.Text = "Show ít vé nhất: Không có dữ liệu";
+                    }
                 }
             }
             else if (CbReportType.SelectedIndex == 1)
@@ -270,6 +294,25 @@ namespace Zoo_Show_Mnm.Views
 
                     TxtReportStat1.Text = $"Tổng số show: {shows.Count} | Tổng số vé đã bán: {totalSold}";
                     TxtReportStat2.Text = $"Tỉ lệ tham gia trung bình: {aggregateUtil:F1}%";
+
+                    if (shows.Any())
+                    {
+                        var showSales = shows
+                            .Select(s => new { s.Name, Sold = s.SeatCapacity - s.RemainingSeatCapacity })
+                            .OrderByDescending(x => x.Sold)
+                            .ToList();
+
+                        var best = showSales.First();
+                        var worst = showSales.Last();
+
+                        TxtBestSeller.Text = $"Show bán chạy nhất: {best.Name} ({best.Sold} vé)";
+                        TxtWorstSeller.Text = $"Show ít vé nhất: {worst.Name} ({worst.Sold} vé)";
+                    }
+                    else
+                    {
+                        TxtBestSeller.Text = "Show bán chạy nhất: Không có dữ liệu";
+                        TxtWorstSeller.Text = "Show ít vé nhất: Không có dữ liệu";
+                    }
                 }
             }
         }

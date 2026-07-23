@@ -59,6 +59,22 @@ namespace Zoo_Show_Mnm.Views
             {
                 ContentPOS.Visibility = Visibility.Collapsed;
                 ContentSearch.Visibility = Visibility.Visible;
+                LoadCashierBookings();
+            }
+        }
+
+        private async void LoadCashierBookings()
+        {
+            if (CurrentUser == null) return;
+            using (var db = new ApplicationDbContext())
+            {
+                var results = await db.Bookings
+                    .Include(b => b.Show)
+                    .Include(b => b.UserAccount)
+                    .Where(b => b.UserAccountId == CurrentUser.Id)
+                    .OrderByDescending(b => b.BookingDate)
+                    .ToListAsync();
+                GridSearch.ItemsSource = results;
             }
         }
 
@@ -85,7 +101,7 @@ namespace Zoo_Show_Mnm.Views
             UpdateSeatsDisplay();
             TxtQty.Text = "1";
             TxtGuestName.Text = "";
-            calculateTotal();
+            UpdateTotal();
         }
 
         private void UpdateSeatsDisplay()
@@ -112,13 +128,13 @@ namespace Zoo_Show_Mnm.Views
 
         private void TxtQty_TextChanged(object sender, TextChangedEventArgs e)
         {
-            calculateTotal();
+            UpdateTotal();
         }
 
-        private void calculateTotal()
+        private void UpdateTotal()
         {
-            if (TxtTotal == null) return;
-            if (_selectedShow != null && int.TryParse(TxtQty.Text, out int qty) && qty > 0)
+            if (_selectedShow == null) return;
+            if (int.TryParse(TxtQty.Text, out int qty) && qty > 0)
             {
                 TxtTotal.Text = $"{(qty * _selectedShow.TicketPrice):C}";
             }
@@ -133,17 +149,15 @@ namespace Zoo_Show_Mnm.Views
             if (_selectedShow == null || CurrentUser == null) return;
 
             string guestName = TxtGuestName.Text.Trim();
-            if (string.IsNullOrEmpty(guestName)) guestName = "Walk-In Customer";
-
-            if (!int.TryParse(TxtQty.Text, out int qty) || qty <= 0)
+            if (string.IsNullOrEmpty(guestName))
             {
-                MessageBox.Show("Please enter a valid ticket quantity.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Please enter guest name.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            if (RadioFail.IsChecked == true)
+            if (!int.TryParse(TxtQty.Text, out int qty) || qty <= 0)
             {
-                MessageBox.Show("Payment simulation failure. Cannot complete ticketing.", "Payment Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Please enter valid quantity.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
@@ -160,14 +174,12 @@ namespace Zoo_Show_Mnm.Views
 
                 if (qty > dbShow.RemainingSeatCapacity)
                 {
-                    MessageBox.Show($"Requested quantity exceeds capacity. Only {dbShow.RemainingSeatCapacity} left.", "Capacity Limit", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    _selectedShow = dbShow;
-                    UpdateSeatsDisplay();
-                    calculateTotal();
+                    MessageBox.Show($"Not enough seats available. Only {dbShow.RemainingSeatCapacity} remaining.", "Capacity Limit", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
                 }
 
                 string refNum = GenerateRefNumber(db);
+                bool isSuccess = RadioSuccess.IsChecked == true;
 
                 var booking = new Booking
                 {
@@ -176,12 +188,13 @@ namespace Zoo_Show_Mnm.Views
                     BookingDate = DateTime.UtcNow,
                     TicketQuantity = qty,
                     TotalPrice = qty * dbShow.TicketPrice,
-                    BookingStatus = "Confirmed",
+                    BookingStatus = isSuccess ? "Confirmed" : "Cancelled",
                     BookingChannel = "Counter",
-                    IssuingCashierId = CurrentUser.Id,
+                    UserAccountId = CurrentUser.Id,
                     WalkInVisitorName = guestName
                 };
 
+                // Deduct show seats
                 dbShow.RemainingSeatCapacity -= qty;
                 db.Bookings.Add(booking);
                 await db.SaveChangesAsync();
@@ -196,16 +209,26 @@ namespace Zoo_Show_Mnm.Views
         private async void BtnSearch_Click(object sender, RoutedEventArgs e)
         {
             string query = TxtSearchQuery.Text.Trim().ToLower();
-            if (string.IsNullOrEmpty(query)) return;
 
             using (var db = new ApplicationDbContext())
             {
-                var results = await db.Bookings
+                var queryable = db.Bookings
                     .Include(b => b.Show)
-                    .Include(b => b.VisitorAccount)
-                    .Where(b => b.ReferenceNumber.ToLower() == query || 
-                               (b.VisitorAccount != null && b.VisitorAccount.Name.ToLower().Contains(query)) ||
-                               (b.WalkInVisitorName != null && b.WalkInVisitorName.ToLower().Contains(query)))
+                    .Include(b => b.UserAccount)
+                    .AsQueryable();
+
+                if (!string.IsNullOrEmpty(query))
+                {
+                    queryable = queryable.Where(b => b.ReferenceNumber.ToLower() == query || 
+                                                    (b.UserAccount != null && b.UserAccount.Name.ToLower().Contains(query)) ||
+                                                    (b.WalkInVisitorName != null && b.WalkInVisitorName.ToLower().Contains(query)));
+                }
+                else
+                {
+                    queryable = queryable.Where(b => b.UserAccountId == CurrentUser!.Id);
+                }
+
+                var results = await queryable
                     .OrderByDescending(b => b.BookingDate)
                     .ToListAsync();
 
