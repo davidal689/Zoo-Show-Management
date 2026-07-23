@@ -1,0 +1,322 @@
+Data Dictionary
+DATA DICTIONARY DOCUMENT
+for
+Show Management System
+Version 1.0 Draft 1
+Prepared by Group 4 — SWR302
+Process Impact
+July 19, 2026
+Revision History
+Date | Reason(s) for Changes | Version
+Date
+Reason(s) for Changes
+Version
+19/07/2026 | Initial draft | 1.0 Draft 1
+19/07/2026
+Initial draft
+1.0 Draft 1
+Introduction
+This document is the authoritative, standalone data dictionary for the Show Management System (SMS), maintained separately from the Software Requirements Specification [SRS] so that data definitions can be found, reviewed, and updated in one place without duplicating or drifting from the shorter summary in SRS §4.2.
+Notation
+Entries below are either primitive data elements or data structures, listed together in a single alphabetical list. A primitive is a data item that is not broken down further; its Composition or Data Type column states an actual data type, and its Length and Values columns are filled in where applicable. A data structure (record) is composed of other data elements, listed in its Composition column separated by a plus sign (+); the Length and Values columns are left blank for structures. An element shown in parentheses is optional within its structure. An element shown as min:max{element} is a repeating group: it may occur between min and max times, where n means no upper limit. Every element referenced inside a structure's composition has its own entry elsewhere in this alphabetical list, so its definition can always be looked up directly.
+Data Dictionary
+Data Element | Description | Composition or Data Type | Length | Values
+Data Element
+Description
+Composition or Data Type
+Length
+Values
+Account Email | email address associated with a user account | alphanumeric characters (email format) | 100 | must be unique per visitor account (BR-34)
+Account Email
+email address associated with a user account
+alphanumeric characters (email format)
+100
+must be unique per visitor account (BR-34) 
+Account ID | unique identifier for a user account | integer | 8 | system-generated sequential integer, beginning with 0
+Account ID
+unique identifier for a user account
+integer
+8
+system-generated sequential integer, beginning with 0
+Account name | full name of the person associated with a user account | alphabetic characters | 60 | 
+Account name
+full name of the person associated with a user account
+alphabetic characters
+60
+Account Password | credential used to authenticate a user account | alphanumeric characters (stored hashed) | ≥ 8 | at least 1 letter and 1 number (BR-36)
+Account Password
+credential used to authenticate a user account
+alphanumeric characters (stored hashed)
+≥ 8
+at least 1 letter and 1 number (BR-36)
+Account Role | role assigned to a user account, determining feature access | alphabetic characters | 12 | Visitor, Show Manager, Cashier, Administrator (BR-01)
+Account Role
+role assigned to a user account, determining feature access
+alphabetic characters
+12
+Visitor, Show Manager, Cashier, Administrator (BR-01)
+Action Type | category of administrative action recorded in an audit log entry | alphabetic characters | 30 | Show Created, Show Edited, Show Cancelled, Account Created, Account Edited, Account Deactivated, Access Denied
+Action Type
+category of administrative action recorded in an audit log entry
+alphabetic characters
+30
+Show Created, Show Edited, Show Cancelled, Account Created, Account Edited, Account Deactivated, Access Denied
+Actor Account ID | identifies the account that performed the action recorded in an audit log entry | Account ID |  | 
+Actor Account ID
+identifies the account that performed the action recorded in an audit log entry
+Account ID
+Attendance Report | report of show attendance and capacity utilization over a requested date range | Report Header+ 1:n{Attendance Report Row} |  | 
+Attendance Report
+report of show attendance and capacity utilization over a requested date range
+Report Header
++ 1:n{Attendance Report Row}
+Attendance Report Row | one line of the Attendance Report, summarizing a single show | Show Name+ Show Date/Time+ Seat Capacity+ Tickets Sold+ Capacity Utilization |  | 
+Attendance Report Row
+one line of the Attendance Report, summarizing a single show
+Show Name
++ Show Date/Time
++ Seat Capacity
++ Tickets Sold
++ Capacity Utilization
+Audit Log Entry | record of an administrative action or a denied access attempt | Log ID+ Actor Account ID+ Action Type+ Target Entity+ Timestamp |  | 
+Audit Log Entry
+record of an administrative action or a denied access attempt
+Log ID
++ Actor Account ID
++ Action Type
++ Target Entity
++ Timestamp
+Booking | a ticket transaction for a show, made online by a visitor or issued by a cashier at the counter | Booking Reference Number+ Show ID+ Booking Date+ Ticket Quantity+ Total Price+ Booking Status+ Booking Channel+ (Visitor Account ID)+ (Issuing Cashier ID) |  | 
+Booking
+a ticket transaction for a show, made online by a visitor or issued by a cashier at the counter
+Booking Reference Number
++ Show ID
++ Booking Date
++ Ticket Quantity
++ Total Price
++ Booking Status
++ Booking Channel
++ (Visitor Account ID)
++ (Issuing Cashier ID)
+Booking Channel | channel through which a booking was made | alphabetic characters | 7 | Online, Counter
+Booking Channel
+channel through which a booking was made
+alphabetic characters
+7
+Online, Counter
+Booking Date | date on which a booking was created | date (MM/DD/YYYY) | 10 | 
+Booking Date
+date on which a booking was created
+date (MM/DD/YYYY)
+10
+Booking Reference Number | identifier issued to a visitor or cashier upon completing a booking | alphanumeric characters | 10 | system-generated; unique per booking (BR-17)
+Booking Reference Number
+identifier issued to a visitor or cashier upon completing a booking
+alphanumeric characters
+10
+system-generated; unique per booking (BR-17)
+Booking Status | current status of a booking | alphabetic characters | 10 | Confirmed, Cancelled (BR-19)
+Booking Status
+current status of a booking
+alphabetic characters
+10
+Confirmed, Cancelled (BR-19)
+Capacity Utilization | percentage of a show's seat capacity that has been sold, shown on the Attendance Report | numeric (percentage) |  | computed as Tickets Sold ÷ Seat Capacity × 100; no default value
+Capacity Utilization
+percentage of a show's seat capacity that has been sold, shown on the Attendance Report
+numeric (percentage)
+computed as Tickets Sold ÷ Seat Capacity × 100; no default value
+Date Range | period selected by an Administrator when requesting a report | Start Date+ End Date |  | 
+Date Range
+period selected by an Administrator when requesting a report
+Start Date
++ End Date
+End Date | last date included in a requested report's date range | date (MM/DD/YYYY) | 10 | 
+End Date
+last date included in a requested report's date range
+date (MM/DD/YYYY)
+10
+Gateway Transaction ID | identifier assigned by the payment gateway to a processed transaction | alphanumeric characters |  | assigned by the payment gateway; no default value
+Gateway Transaction ID
+identifier assigned by the payment gateway to a processed transaction
+alphanumeric characters
+assigned by the payment gateway; no default value 
+Issuing Cashier ID | identifies the cashier who issued a counter booking; blank for online bookings | Account ID |  | 
+Issuing Cashier ID
+identifies the cashier who issued a counter booking; blank for online bookings
+Account ID
+Log ID | unique identifier for an audit log entry | integer | 8 | system-generated sequential integer, beginning with 1
+Log ID
+unique identifier for an audit log entry
+integer
+8
+system-generated sequential integer, beginning with 1
+Payment | outcome of a payment gateway transaction for a single booking | Payment ID+ Booking Reference Number+ Payment Amount+ Payment Status+ Gateway Transaction ID |  | 
+Payment
+outcome of a payment gateway transaction for a single booking
+Payment ID
++ Booking Reference Number
++ Payment Amount
++ Payment Status
++ Gateway Transaction ID
+Payment Amount | amount charged for a booking through the payment gateway | numeric, single default currency (As-05) | 10 | 
+Payment Amount
+amount charged for a booking through the payment gateway
+numeric, single default currency (As-05)
+10
+Payment ID | unique identifier for a payment record | integer | 8 | system-generated sequential integer, beginning with 1
+Payment ID
+unique identifier for a payment record
+integer
+8
+system-generated sequential integer, beginning with 1
+Payment Status | outcome of a payment gateway transaction | alphabetic characters | 7 | Success, Failed (BR-23)
+Payment Status
+outcome of a payment gateway transaction
+alphabetic characters
+7
+Success, Failed (BR-23)
+Remaining Seat Capacity | number of tickets still available for a show | integer | 5 | default equals Seat Capacity; decremented on booking, restored on cancellation (BR-10, BR-20)
+Remaining Seat Capacity
+number of tickets still available for a show
+integer
+5
+default equals Seat Capacity; decremented on booking, restored on cancellation (BR-10, BR-20)
+Report Header | identifying information shown at the top of a generated report | Report Title+ Requested By+ Date Range |  | 
+Report Header
+identifying information shown at the top of a generated report
+Report Title
++ Requested By
++ Date Range
+Report Title | name of the requested report | alphabetic characters | 20 | Transaction Report, Attendance Report
+Report Title
+name of the requested report
+alphabetic characters
+20
+Transaction Report, Attendance Report
+Requested By | name of the Administrator who requested a report | Account Name |  | 
+Requested By
+name of the Administrator who requested a report
+Account Name
+Seat Capacity | total number of tickets that may be sold for a show | integer | 5 | on edit, must not be less than tickets already sold (BR-16)
+Seat Capacity
+total number of tickets that may be sold for a show
+integer
+5
+on edit, must not be less than tickets already sold (BR-16)
+Show | a scheduled show maintained by a Show Manager | Show ID+ Show Name+ Show Description+ Show Date/Time+ Show Venue+ Seat Capacity+ Remaining Seat Capacity+ Ticket Price+ Show Status |  | 
+Show
+a scheduled show maintained by a Show Manager
+Show ID
++ Show Name
++ Show Description
++ Show Date/Time
++ Show Venue
++ Seat Capacity
++ Remaining Seat Capacity
++ Ticket Price
++ Show Status
+Show Date/Time | scheduled date and time of a show | date/time (MM/DD/YYYY HH:MM) | 16 | 
+Show Date/Time
+scheduled date and time of a show
+date/time (MM/DD/YYYY HH:MM)
+16
+Show Description | descriptive text about a show, shown on the show detail page | alphanumeric characters | 500 | 
+Show Description
+descriptive text about a show, shown on the show detail page
+alphanumeric characters
+500
+Show ID | unique identifier for a show | integer | 8 | system-generated sequential integer, beginning with 1
+Show ID
+unique identifier for a show
+integer
+8
+system-generated sequential integer, beginning with 1
+Show Name | name of a show, shown on listings and detail pages | alphabetic characters | 100 | 
+Show Name
+name of a show, shown on listings and detail pages
+alphabetic characters
+100
+Show Status | current publication status of a show | alphabetic characters | 10 | Draft, Published, Cancelled (BR-28, BR-32)
+Show Status
+current publication status of a show
+alphabetic characters
+10
+Draft, Published, Cancelled (BR-28, BR-32)
+Show Venue | location within the water park where a show takes place | alphabetic characters | 100 | 
+Show Venue
+location within the water park where a show takes place
+alphabetic characters
+100
+Start Date | first date included in a requested report's date range | date (MM/DD/YYYY) | 10 | 
+Start Date
+first date included in a requested report's date range
+date (MM/DD/YYYY)
+10
+Target Entity | identifies the record affected by the action recorded in an audit log entry (e.g., a Show ID or Account ID) | alphanumeric characters |  | no default value
+Target Entity
+identifies the record affected by the action recorded in an audit log entry (e.g., a Show ID or Account ID)
+alphanumeric characters
+no default value
+Temporary Password Flag | indicates whether a staff account's password must be changed at next login | boolean | 5 | True, False; True until the staff member's first successful login (BR-37)
+Temporary Password Flag
+indicates whether a staff account's password must be changed at next login
+boolean
+5
+True, False; True until the staff member's first successful login (BR-37)
+Ticket Price | price of a single ticket for a show | numeric, single default currency (As-05) | 10 | 
+Ticket Price
+price of a single ticket for a show
+numeric, single default currency (As-05)
+10
+Ticket Quantity | number of tickets included in a single booking | integer | 3 | must not exceed Remaining Seat Capacity at time of booking (BR-10)
+Ticket Quantity
+number of tickets included in a single booking
+integer
+3
+must not exceed Remaining Seat Capacity at time of booking (BR-10)
+Tickets Sold | number of tickets sold for a show, shown on the Attendance Report | integer | 5 | computed as Seat Capacity minus Remaining Seat Capacity
+Tickets Sold
+number of tickets sold for a show, shown on the Attendance Report
+integer
+5
+computed as Seat Capacity minus Remaining Seat Capacity
+Timestamp | date and time an audit log entry was recorded | date/time (MM/DD/YYYY HH:MM:SS) | 19 | 
+Timestamp
+date and time an audit log entry was recorded
+date/time (MM/DD/YYYY HH:MM:SS)
+19
+Total Price | total price of a booking | numeric, single default currency | 10 | computed as Ticket Price × Ticket Quantity; no additional taxes or fees apply (BR-26)
+Total Price
+total price of a booking
+numeric, single default currency
+10
+computed as Ticket Price × Ticket Quantity; no additional taxes or fees apply (BR-26)
+Transaction Report | report of ticket transactions, online and at the counter, over a requested date range | Report Header+ 1:n{Transaction Report Row} |  | 
+Transaction Report
+report of ticket transactions, online and at the counter, over a requested date range
+Report Header
++ 1:n{Transaction Report Row}
+Transaction Report Row | one line of the Transaction Report, summarizing a single booking | Booking Reference Number+ Show Name+ Booking Channel+ Ticket Quantity+ Total Price+ Payment Status+ Booking Date |  | 
+Transaction Report Row
+one line of the Transaction Report, summarizing a single booking
+Booking Reference Number
++ Show Name
++ Booking Channel
++ Ticket Quantity
++ Total Price
++ Payment Status
++ Booking Date
+User Account | a Visitor, Show Manager, Cashier, or Administrator account | Account ID+ Account Name+ Account Email+ Account Password+ Account Role+ (Temporary Password Flag) |  | 
+User Account
+a Visitor, Show Manager, Cashier, or Administrator account
+Account ID
++ Account Name
++ Account Email
++ Account Password
++ Account Role
++ (Temporary Password Flag)
+Visitor Account ID | identifies the visitor who made an online booking; blank for counter bookings | Account ID |  | 
+Visitor Account ID
+identifies the visitor who made an online booking; blank for counter bookings
+Account ID

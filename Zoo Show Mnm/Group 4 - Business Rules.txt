@@ -1,0 +1,261 @@
+Business Rules
+BUSINESS RULES DOCUMENT
+for
+Show Management System
+Version 1.0 Draft 2
+Prepared by Group 4 — SWR302
+Process Impact
+June 25, 2026
+Revision History
+Date | Reason(s) for Changes | Version
+Date
+Reason(s) for Changes
+Version
+16/07/2026 | Initial draft | 1.0 Draft 1
+16/07/2026
+Initial draft
+1.0 Draft 1
+19/07/2026 | Resolved previously ambiguous design parameters | 1.0 Draft 2
+19/07/2026
+Resolved previously ambiguous design parameters
+1.0 Draft 2
+Business Rule ID | Rule Definition | Type of Rule | Static or Dynamic | Source
+Business Rule ID
+Rule Definition
+Type of Rule
+Static or Dynamic
+Source
+BR-01 | Each user account is assigned exactly one role: Visitor, Show Manager, Cashier, or Administrator. | Fact | Static | Group 4
+BR-01
+Each user account is assigned exactly one role: Visitor, Show Manager, Cashier, or Administrator.
+Fact
+Static
+Group 4
+BR-02 | Role assignments may only be created or changed by an Administrator. | Constraint | Static | Group 4
+BR-02
+Role assignments may only be created or changed by an Administrator.
+Constraint
+Static
+Group 4
+BR-03 | Before granting access to any feature, page, or action, the system must verify the requesting user's role against the access control policy for that feature. | Constraint | Static | Group 4
+BR-03
+Before granting access to any feature, page, or action, the system must verify the requesting user's role against the access control policy for that feature.
+Constraint
+Static
+Group 4
+BR-04 | If a user's role does not permit access to a requested feature, the system must deny access, display an ‘Access Denied’ message, and redirect the user to their role-appropriate home page. | Action Enabler | Dynamic | Group 4
+BR-04
+If a user's role does not permit access to a requested feature, the system must deny access, display an ‘Access Denied’ message, and redirect the user to their role-appropriate home page.
+Action Enabler
+Dynamic
+Group 4
+BR-05 | Every denied access attempt must be recorded in the system audit log. | Fact | Static | Group 4
+BR-05
+Every denied access attempt must be recorded in the system audit log.
+Fact
+Static
+Group 4
+BR-06 | Visitors may browse shows and purchase, view, and cancel only their own ticket bookings; they may not access show management, cashier, or administrative functions. | Constraint | Static | Group 4
+BR-06
+Visitors may browse shows and purchase, view, and cancel only their own ticket bookings; they may not access show management, cashier, or administrative functions.
+Constraint
+Static
+Group 4
+BR-07 | Cashiers may issue tickets at the counter and look up bookings, but may not access visitor account management or administrative reporting. | Constraint | Static | Group 4
+BR-07
+Cashiers may issue tickets at the counter and look up bookings, but may not access visitor account management or administrative reporting.
+Constraint
+Static
+Group 4
+BR-08 | Show Managers may create, edit, and cancel shows, but may not access user account management or reporting functions. | Constraint | Static | Group 4
+BR-08
+Show Managers may create, edit, and cancel shows, but may not access user account management or reporting functions.
+Constraint
+Static
+Group 4
+BR-09 | Administrators may manage user accounts and generate reports, but may not cancel or delete a show; only a Show Manager may cancel a show. | Constraint | Static | Group 4
+BR-09
+Administrators may manage user accounts and generate reports, but may not cancel or delete a show; only a Show Manager may cancel a show. 
+Constraint
+Static
+Group 4
+BR-10 | A ticket purchase, whether made online or issued by a cashier, must not be completed if it would cause the number of reserved tickets for a show to exceed that show's seat capacity. | Constraint | Dynamic | Group 4
+BR-10
+A ticket purchase, whether made online or issued by a cashier, must not be completed if it would cause the number of reserved tickets for a show to exceed that show's seat capacity.
+Constraint
+Dynamic
+Group 4
+BR-11 | When a visitor or cashier proceeds to checkout, the system must temporarily lock the selected seats to prevent a concurrent transaction from overbooking the same show. | Action Enabler | Dynamic | Group 4
+BR-11
+When a visitor or cashier proceeds to checkout, the system must temporarily lock the selected seats to prevent a concurrent transaction from overbooking the same show. 
+Action Enabler
+Dynamic
+Group 4
+BR-12 | A seat lock expires 10 minutes after it is created. If it is not converted into a confirmed booking before it expires, the locked seats must be released back into the show's available capacity. | Action Enabler | Dynamic | Group 4
+BR-12
+A seat lock expires 10 minutes after it is created. If it is not converted into a confirmed booking before it expires, the locked seats must be released back into the show's available capacity.
+Action Enabler
+Dynamic
+Group 4
+BR-13 | If a payment attempt fails, any seat lock associated with that attempt must be released immediately. | Action Enabler | Dynamic | Group 4
+BR-13
+If a payment attempt fails, any seat lock associated with that attempt must be released immediately.
+Action Enabler
+Dynamic
+Group 4
+BR-14 | A show whose remaining seat capacity is zero must be marked ‘Fully Booked’ on the listings and detail pages, and its purchase option must be disabled. | Action Enabler | Dynamic | Group 4
+BR-14
+A show whose remaining seat capacity is zero must be marked ‘Fully Booked’ on the listings and detail pages, and its purchase option must be disabled.
+Action Enabler
+Dynamic
+Group 4
+BR-15 | The show listings and detail pages must reflect real-time seat capacity so that visitors cannot select a fully booked show. | Constraint | Dynamic | Group 4
+BR-15
+The show listings and detail pages must reflect real-time seat capacity so that visitors cannot select a fully booked show.
+Constraint
+Dynamic
+Group 4
+BR-16 | The seat capacity of an existing show may not be reduced below the number of tickets already sold for that show. | Constraint | Dynamic | Group 4
+BR-16
+The seat capacity of an existing show may not be reduced below the number of tickets already sold for that show.
+Constraint
+Dynamic
+Group 4
+BR-17 | Every completed booking, whether made online or issued at the counter, must be assigned a unique reference number. | Fact | Static | Group 4
+BR-17
+Every completed booking, whether made online or issued at the counter, must be assigned a unique reference number. 
+Fact
+Static
+Group 4
+BR-18 | A visitor may cancel a booking only if the show it is associated with has not yet taken place. | Constraint | Dynamic | Group 4
+BR-18
+A visitor may cancel a booking only if the show it is associated with has not yet taken place.
+Constraint
+Dynamic
+Group 4
+BR-19 | A booking that already has a status of ‘Cancelled’ cannot be cancelled again. | Constraint | Dynamic | Group 4
+BR-19
+A booking that already has a status of ‘Cancelled’ cannot be cancelled again.
+Constraint
+Dynamic
+Group 4
+BR-20 | When a booking is cancelled, the seat capacity of its associated show must be restored by the number of tickets released. | Action Enabler | Dynamic | Group 4
+BR-20
+When a booking is cancelled, the seat capacity of its associated show must be restored by the number of tickets released.
+Action Enabler
+Dynamic
+Group 4
+BR-21 | A cancelled booking is eligible for a full refund of the ticket price, processed manually by park staff outside the SMS within 5 business days of the cancellation request. Automated refund processing is out of scope for Release 1.0. | Constraint | Static | Group 4
+BR-21
+A cancelled booking is eligible for a full refund of the ticket price, processed manually by park staff outside the SMS within 5 business days of the cancellation request. Automated refund processing is out of scope for Release 1.0.
+Constraint
+Static
+Group 4
+BR-22 | The system must not store payment card data directly; all sensitive payment data is handled exclusively by the integrated payment gateway. | Constraint | Static | Group 4
+BR-22
+The system must not store payment card data directly; all sensitive payment data is handled exclusively by the integrated payment gateway.
+Constraint
+Static
+Group 4
+BR-23 | A booking may only be finalized after the payment gateway returns a successful payment confirmation. | Constraint | Dynamic | Group 4
+BR-23
+A booking may only be finalized after the payment gateway returns a successful payment confirmation.
+Constraint
+Dynamic
+Group 4
+BR-24 | Only a single payment gateway provider is integrated with the system for Release 1.0. | Fact | Static | Group 4
+BR-24
+Only a single payment gateway provider is integrated with the system for Release 1.0.
+Fact
+Static
+Group 4
+BR-25 | All ticket pricing and transactions use a single default currency. | Fact | Static | Group 4
+BR-25
+All ticket pricing and transactions use a single default currency. 
+Fact
+Static
+Group 4
+BR-26 | The total price of a ticket order is computed as the ticket price multiplied by the number of tickets selected. No additional taxes or fees apply; the computed amount is the final price charged. | Computation | Dynamic | Group 4
+BR-26
+The total price of a ticket order is computed as the ticket price multiplied by the number of tickets selected. No additional taxes or fees apply; the computed amount is the final price charged.
+Computation
+Dynamic
+Group 4
+BR-27 | Only a user with the Show Manager role may create, edit, or cancel a show. | Constraint | Static | Group 4
+BR-27
+Only a user with the Show Manager role may create, edit, or cancel a show.
+Constraint
+Static
+Group 4
+BR-28 | A show may be saved with a status of ‘Draft’ (not visible to visitors) or ‘Published’ (visible on the show listings). | Fact | Static | Group 4
+BR-28
+A show may be saved with a status of ‘Draft’ (not visible to visitors) or ‘Published’ (visible on the show listings).
+Fact
+Static
+Group 4
+BR-29 | If a new or edited show's date and time conflict with an existing show at the same venue, the system must warn the Show Manager before the show can be saved. | Action Enabler | Dynamic | Group 4
+BR-29
+If a new or edited show's date and time conflict with an existing show at the same venue, the system must warn the Show Manager before the show can be saved.
+Action Enabler
+Dynamic
+Group 4
+BR-30 | A show may only be edited or cancelled if it has not yet taken place. | Constraint | Dynamic | Group 4
+BR-30
+A show may only be edited or cancelled if it has not yet taken place.
+Constraint
+Dynamic
+Group 4
+BR-31 | A show that has already taken place cannot be cancelled. | Constraint | Dynamic | Group 4
+BR-31
+A show that has already taken place cannot be cancelled.
+Constraint
+Dynamic
+Group 4
+BR-32 | A show that already has a status of ‘Cancelled’ cannot be cancelled again. | Constraint | Dynamic | Group 4
+BR-32
+A show that already has a status of ‘Cancelled’ cannot be cancelled again.
+Constraint
+Dynamic
+Group 4
+BR-33 | When a show is cancelled, it must be removed from the visitor-facing listings and all associated seat reservations must be released. | Action Enabler | Dynamic | Group 4
+BR-33
+When a show is cancelled, it must be removed from the visitor-facing listings and all associated seat reservations must be released.
+Action Enabler
+Dynamic
+Group 4
+BR-34 | A single email address may be associated with only one visitor account. | Constraint | Static | Group 4
+BR-34
+A single email address may be associated with only one visitor account.
+Constraint
+Static
+Group 4
+BR-35 | A new self-registered account is automatically assigned the ‘Visitor’ role. | Fact | Static | Group 4
+BR-35
+A new self-registered account is automatically assigned the ‘Visitor’ role.
+Fact
+Static
+Group 4
+BR-36 | Passwords must be at least 8 characters long and contain at least one letter and one number. | Constraint | Static | Group 4
+BR-36
+Passwords must be at least 8 characters long and contain at least one letter and one number.
+Constraint
+Static
+Group 4
+BR-37 | Staff accounts (Show Manager, Cashier, Administrator) can only be created by an Administrator, and are issued a temporary password that must be changed at first login. | Constraint | Static | Group 4
+BR-37
+Staff accounts (Show Manager, Cashier, Administrator) can only be created by an Administrator, and are issued a temporary password that must be changed at first login.
+Constraint
+Static
+Group 4
+BR-38 | All administrative actions, including show creation, editing, and cancellation, and user account creation, editing, and deactivation, must be recorded in the system audit log. | Fact | Static | Group 4
+BR-38
+All administrative actions, including show creation, editing, and cancellation, and user account creation, editing, and deactivation, must be recorded in the system audit log. 
+Fact
+Static
+Group 4
+BR-39 | Transaction and attendance report generation must complete within 2 minutes. | Constraint | Dynamic | Group 4
+BR-39
+Transaction and attendance report generation must complete within 2 minutes.
+Constraint
+Dynamic
+Group 4

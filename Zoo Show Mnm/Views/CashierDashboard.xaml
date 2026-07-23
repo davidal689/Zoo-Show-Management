@@ -1,0 +1,143 @@
+<UserControl x:Class="Zoo_Show_Mnm.Views.CashierDashboard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Zoo_Show_Mnm.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="700" d:DesignWidth="1000">
+    <Grid Background="#F0F0F0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Left Navigation Sidebar -->
+        <Border Grid.Column="0" Background="#E0E0E0" BorderBrush="DarkGray" BorderThickness="0,0,1,0" Padding="15">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0">
+                    <TextBlock Text="Cashier POS" FontSize="20" FontWeight="Bold" Foreground="Black" Margin="0,0,0,25"/>
+                    <RadioButton x:Name="TabPOS" Content="Bán vé tại quầy" IsChecked="True" Checked="Tab_Checked" Height="35" Margin="0,0,0,5"/>
+                    <RadioButton x:Name="TabSearch" Content="Tra cứu booking" Checked="Tab_Checked" Height="35"/>
+                </StackPanel>
+
+                <Button Grid.Row="2" Content="Đăng xuất" Click="BtnLogout_Click" Height="30"/>
+            </Grid>
+        </Border>
+
+        <!-- Content Area -->
+        <Grid Grid.Column="1" Margin="20">
+            <!-- Tab: Counter POS -->
+            <Grid x:Name="ContentPOS" Visibility="Visible">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="300"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="Bán Vé Tham Quan Tại Quầy (Point of Sale)" FontSize="20" FontWeight="Bold" Grid.Row="0" Grid.ColumnSpan="2" Margin="0,0,0,15"/>
+
+                <DataGrid x:Name="GridShows" Grid.Row="1" Grid.Column="0" SelectionChanged="GridShows_SelectionChanged" Margin="0,0,15,0" AutoGenerateColumns="False" IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Tên Show" Binding="{Binding Name}" Width="*"/>
+                        <DataGridTextColumn Header="Địa điểm" Binding="{Binding Venue}" Width="130"/>
+                        <DataGridTextColumn Header="Thời gian" Binding="{Binding DateTime, StringFormat='MM/dd hh:mm tt'}" Width="110"/>
+                        <DataGridTextColumn Header="Giá vé" Binding="{Binding TicketPrice, StringFormat='${0:F2}'}" Width="70"/>
+                        <DataGridTextColumn Header="Ghế trống" Binding="{Binding RemainingSeatCapacity}" Width="80"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <Border Grid.Row="1" Grid.Column="1" Background="White" BorderBrush="DarkGray" BorderThickness="1" CornerRadius="5" Padding="15">
+                    <Grid>
+                        <TextBlock x:Name="TxtNoShowSelected" Text="Chọn một show từ danh sách để bán vé tại quầy." Foreground="Gray" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"/>
+
+                        <ScrollViewer x:Name="PanelIssueTickets" Visibility="Collapsed">
+                            <StackPanel>
+                                <TextBlock x:Name="DetailsName" Text="Show Name" FontSize="16" FontWeight="Bold" Foreground="Black" TextWrapping="Wrap" Margin="0,0,0,15"/>
+
+                                <Label Content="Tên khách hàng vãng lai"/>
+                                <TextBox x:Name="TxtGuestName" Height="26" VerticalContentAlignment="Center" Margin="0,0,0,10"/>
+
+                                <Label Content="Số lượng vé xuất"/>
+                                <Grid Margin="0,0,0,10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Button Grid.Column="0" Content="-" Click="BtnQtyDec_Click" Width="30" Height="26"/>
+                                    <TextBox Grid.Column="1" x:Name="TxtQty" Text="1" TextAlignment="Center" Height="26" Margin="5,0" VerticalContentAlignment="Center" TextChanged="TxtQty_TextChanged"/>
+                                    <Button Grid.Column="2" Content="+" Click="BtnQtyInc_Click" Width="30" Height="26"/>
+                                </Grid>
+
+                                <TextBlock x:Name="DetailsSeats" Text="Seats left: 100" Foreground="DimGray" FontSize="11" Margin="0,0,0,15"/>
+
+                                <Border Background="#F9F9F9" BorderBrush="DarkGray" BorderThickness="1" CornerRadius="5" Padding="10" Margin="0,0,0,15">
+                                    <Grid>
+                                        <TextBlock Text="Tổng tiền thu:" VerticalAlignment="Center" Foreground="Black" FontWeight="Bold"/>
+                                        <TextBlock x:Name="TxtTotal" Text="$0.00" HorizontalAlignment="Right" FontSize="16" FontWeight="Bold" Foreground="Green"/>
+                                    </Grid>
+                                </Border>
+
+                                <TextBlock Text="Xác nhận thanh toán đầu đọc thẻ:" FontSize="11" Foreground="Gray" Margin="0,0,0,5"/>
+                                <Grid Margin="0,0,0,15">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <RadioButton x:Name="RadioSuccess" Grid.Column="0" Content="Thành công" IsChecked="True" Foreground="Green" FontWeight="SemiBold"/>
+                                    <RadioButton x:Name="RadioFail" Grid.Column="1" Content="Thất bại" Foreground="Red" FontWeight="SemiBold"/>
+                                </Grid>
+
+                                <Button Content="In &amp; Phát Vé" Click="BtnIssueTickets_Click" Height="32" FontWeight="Bold"/>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <!-- Tab: Search Bookings -->
+            <Grid x:Name="ContentSearch" Visibility="Collapsed">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="Tra Cứu Lịch Sử Đặt Vé" FontSize="20" FontWeight="Bold" Grid.Row="0" Margin="0,0,0,15"/>
+
+                <Grid Grid.Row="1" Margin="0,0,0,15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox x:Name="TxtSearchQuery" Grid.Column="0" Height="32" VerticalContentAlignment="Center"/>
+                    <Button Content="Tìm Kiếm" Click="BtnSearch_Click" Grid.Column="1" Width="100" Height="32" Margin="10,0,0,0"/>
+                </Grid>
+
+                <DataGrid x:Name="GridSearch" Grid.Row="2" AutoGenerateColumns="False" IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Mã booking" Binding="{Binding ReferenceNumber}" Width="100"/>
+                        <DataGridTextColumn Header="Tên Show" Binding="{Binding Show.Name}" Width="*"/>
+                        <DataGridTextColumn Header="Địa điểm" Binding="{Binding Show.Venue}" Width="130"/>
+                        <DataGridTextColumn Header="Thời gian diễn" Binding="{Binding Show.DateTime, StringFormat='MM/dd hh:mm tt'}" Width="110"/>
+                        <DataGridTextColumn Header="Khách hàng" Binding="{Binding WalkInVisitorName}" Width="120"/>
+                        <DataGridTextColumn Header="Số vé" Binding="{Binding TicketQuantity}" Width="60"/>
+                        <DataGridTextColumn Header="Tổng tiền" Binding="{Binding TotalPrice, StringFormat='${0:F2}'}" Width="80"/>
+                        <DataGridTextColumn Header="Kênh" Binding="{Binding BookingChannel}" Width="80"/>
+                        <DataGridTextColumn Header="Trạng thái" Binding="{Binding BookingStatus}" Width="80"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

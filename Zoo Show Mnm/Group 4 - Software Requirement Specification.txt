@@ -1,0 +1,1056 @@
+Software Requirement Specification
+SOFTWARE REQUIREMENT SPECIFICATION
+for
+Show Management System
+Version 1.0 Draft 2
+Prepared by Group 4 — SWR302
+Process Impact
+July 19, 2026
+ TOC \h \u \z \t "Heading 1,1,Heading 2,2,Heading 3,3,Heading 4,4,Heading 5,5,Heading 6,6,"Revision History3
+1. Introduction4
+1.1. Purpose4
+1.2. Document Conventions4
+1.3. Project Scope and Product Features4
+1.4. References5
+2. Overall Description5
+2.1. Product Perspectives5
+2.2. User Classes and Characteristics5
+2.3. Operating Environment5
+2.4. Design and Implementation Constraints5
+2.5. Assumptions and Dependencies6
+3. Functional Requirements7
+3.1. Use Case for Park Visitors7
+3.2. Use Cases for Cashiers10
+3.3. Use Cases for Show Managers11
+3.4. Use Cases for Administrators13
+3.5. System-Wide Requirements14
+4. Data Requirements15
+4.1. Logical Data Model15
+4.2. Data Dictionary15
+4.3. Reports17
+4.3.1. Transaction Report17
+4.3.2. Attendance Report18
+4.4. Data Integrity, Retention, and Disposal18
+5. External Interface Requirement19
+5.1. User Interfaces19
+5.2. Software Interfaces19
+5.3. Hardware Interfaces19
+5.4. Communications Interfaces19
+6. Quality Attributes20
+6.1. Usability Requirements20
+6.2. Performance Requirements20
+6.3. Security Requirements20
+6.4. Safety Requirements21
+6.5. Availability Requirements21
+6.6. Robustness Requirements21
+7. Business Rules21
+Revision History
+Date | Reason(s) for Changes | Version
+Date
+Reason(s) for Changes
+Version
+16/07/2026 | Initial draft | 1.0 Draft 1
+16/07/2026
+Initial draft
+1.0 Draft 1
+19/07/2026 | Resolved previously deferred designs parameters | 1.0 Draft 2
+19/07/2026
+Resolved previously deferred designs parameters
+1.0 Draft 2
+Introduction
+Purpose
+This Software Requirements Specification (SRS) describes the functional and nonfunctional requirements for Release 1.0 of the Show Management System (SMS), a web-based platform that lets water park visitors browse show schedules and purchase tickets online, and gives park staff centralized tools to manage shows, issue tickets, and oversee operations. This document is intended for the members of the project team who will design, implement, and verify the correct functioning of the system. Unless otherwise noted, all requirements specified here are committed for Release 1.0.
+Document Conventions
+Functional requirements are organized by use case within user class, following the convention ID FR-UC-N, where UC is the two-digit use case number from the Use Case Specification [2] and N is a sequential number within that use case (e.g., FR-04-3 is the third functional requirement derived from UC-04). Each use-case group states a single priority level (High, Medium, or Low), carried over directly from that use case's Priority field. Nonfunctional and supporting requirements use the category prefixes defined in the relevant section (e.g., OE- for Operating Environment, SEC- for Security). Where a requirement enforces or derives from a specific business rule, the rule is cited in parentheses using its BR-NN identifier from the Business Rules Document [3]; these citations are traceability references, not restatements, and the authoritative rule text remains in [3]. As in the referenced templates, all statements of system behavior use ‘shall’.
+Project Scope and Product Features
+The SMS will permit water park visitors to browse show schedules and purchase tickets online, replacing the park's current manual, counter-only ticketing process. A detailed description of the business rationale, objectives, and scope is available in the Vision and Scope Document [1]. The major features scheduled for Release 1.0 are:
+Feature ID | Description
+Feature ID
+Description
+Fe-01 | Browse show schedules and view show details, including time, location, and capacity
+Fe-01
+Browse show schedules and view show details, including time, location, and capacity
+Fe-02 | Purchase show tickets online and receive a booking confirmation with a reference number
+Fe-02
+Purchase show tickets online and receive a booking confirmation with a reference number
+Fe-03 | Register and log in to a visitor account to manage bookings
+Fe-03
+Register and log in to a visitor account to manage bookings 
+Fe-04 | Create, edit, and cancel show listings, including setting show times and seat capacity (show managers)
+Fe-04
+Create, edit, and cancel show listings, including setting show times and seat capacity (show managers) 
+Fe-05 | Issue tickets manually at physical park counters for walk-in visitors (cashiers)
+Fe-05
+Issue tickets manually at physical park counters for walk-in visitors (cashiers) 
+Fe-06 | Manage user accounts, system configuration, and view transaction/attendance reports (admins)
+Fe-06
+Manage user accounts, system configuration, and view transaction/attendance reports (admins) 
+Fe-07 | Enforce role-based access control across visitor, show manager, cashier, and admin roles
+Fe-07
+Enforce role-based access control across visitor, show manager, cashier, and admin roles
+References
+[1] Group 4. Vision and Scope Document — Show Management System, Version 1.0 Draft 4, 25/06/2026. Group 4 - Vision & Scope
+[2] Group 4. Use Case Specification — Show Management System, Version 1.0 Draft 4, 19/07/2026. Group 4 - Use Case Specification
+[3] Group 4. Business Rules Document — Show Management System, Version 1.0 Draft 2, 19/07/2026. Group 4 - Business Rules
+[4] Group 4. Data Dictionary Document — Show Management System, Version 1.0 Draft 1, 19/07/2026. Group 4 - Data Dictionary
+Overall Description
+Product Perspectives
+The Show Management System is a new, standalone web application that replaces the water park's current manual and counter-based processes for publishing show schedules and selling tickets. Show schedules are presently available only at park entrances or static notice boards, and ticketing is handled manually at physical counters, which is prone to overbooking and gives management little real-time visibility into attendance. The SMS centralizes show information and ticket purchasing through a browser-accessible platform used directly by visitors, and through role-specific interfaces used by cashiers, show managers, and administrators.
+Fig. 1. Context diagram for release 1.0 of the Show Management System
+User Classes and Characteristics
+Park Visitor | A Park Visitor is a public water park patron who accesses the Show Management System online to discover live entertainment and secure show admissions. Park Visitors interact with the system via standard desktop, laptop, or personal mobile web browsers using their personal devices or shared terminals. Their core responsibilities within the application include browsing published show schedules, viewing real-time seat availability, registering and authenticating their accounts, processing online ticket purchases via the single integrated payment gateway, and viewing or cancelling their own active bookings. The frequency of use for this class is High, generating the largest aggregate transaction volume on the platform, with peak activity occurring during morning and early afternoon hours. Water park management aims to have at least 50 percent of all ticket sales completed online by this user class within 6 months of release, with a stretch goal of 70 percent. While visitors are generally enthusiastic about the platform, they may initially be unfamiliar with online ticketing workflows, necessitating an intuitive user interface that offers immediate, clear on-screen confirmation messages. This user class is strictly constrained by role-based access control, preventing them from viewing any other user’s data or accessing cashier, show management, or administrative functions.
+Park Visitor
+A Park Visitor is a public water park patron who accesses the Show Management System online to discover live entertainment and secure show admissions. Park Visitors interact with the system via standard desktop, laptop, or personal mobile web browsers using their personal devices or shared terminals. Their core responsibilities within the application include browsing published show schedules, viewing real-time seat availability, registering and authenticating their accounts, processing online ticket purchases via the single integrated payment gateway, and viewing or cancelling their own active bookings. The frequency of use for this class is High, generating the largest aggregate transaction volume on the platform, with peak activity occurring during morning and early afternoon hours. Water park management aims to have at least 50 percent of all ticket sales completed online by this user class within 6 months of release, with a stretch goal of 70 percent. While visitors are generally enthusiastic about the platform, they may initially be unfamiliar with online ticketing workflows, necessitating an intuitive user interface that offers immediate, clear on-screen confirmation messages. This user class is strictly constrained by role-based access control, preventing them from viewing any other user’s data or accessing cashier, show management, or administrative functions.
+Cashier | A Cashier is a front-line water park employee who utilizes the point-of-sale interface at physical park ticketing counters to process walk-in visitors. Their core responsibilities include searching or selecting shows, checking real-time seating availability, inputting requested ticket quantities, processing transactions through the integrated payment gateway, and looking up existing orders by name or booking reference number. The frequency of use for this class is High, operating continuously as the primary transactional channel for walk-in traffic during peak park operating hours. Cashiers are bound by a strict operational efficiency constraint requiring them to complete a counter ticket transaction in an average of 1.5 minutes or less to minimize line wait times. Cashiers are cautiously receptive to the software and highly concerned about system performance and UI simplicity under time pressure, requiring basic operational orientation before the system goes live. Role-based boundaries completely block cashiers from accessing visitor account management or administrative reporting functions.
+Cashier
+A Cashier is a front-line water park employee who utilizes the point-of-sale interface at physical park ticketing counters to process walk-in visitors. Their core responsibilities include searching or selecting shows, checking real-time seating availability, inputting requested ticket quantities, processing transactions through the integrated payment gateway, and looking up existing orders by name or booking reference number. The frequency of use for this class is High, operating continuously as the primary transactional channel for walk-in traffic during peak park operating hours. Cashiers are bound by a strict operational efficiency constraint requiring them to complete a counter ticket transaction in an average of 1.5 minutes or less to minimize line wait times. Cashiers are cautiously receptive to the software and highly concerned about system performance and UI simplicity under time pressure, requiring basic operational orientation before the system goes live. Role-based boundaries completely block cashiers from accessing visitor account management or administrative reporting functions.
+Show Manager | A Show Manager is an operational park staff member responsible for organizing and publishing live performance events. Their core responsibilities involve navigating the show management panel to create new show entries, input show details (such as names, descriptions, venues, times, and initial capacities), save listings as invisible drafts, publish active shows to the public listings, or cancel scheduled events. The frequency of use for this class is Moderate, with usage peaking before the launch of new park seasons or when operational changes necessitate scheduling updates. System efficiency goals dictate that a Show Manager must be able to create, update, and instantly publish a show listing entry in less than 10 minutes using the administrative interface. Show Managers are highly receptive to digital coordination but possess limited overall technical proficiency, meaning they require a straightforward, form-driven, task-oriented user interface that minimizes complex navigation. They will receive a basic system orientation prior to deployment. System validations strictly prohibit a Show Manager from reducing a show's seat capacity below the total number of tickets already sold for that show, and prevent them from editing or cancelling any show that has already taken place.
+Show Manager
+A Show Manager is an operational park staff member responsible for organizing and publishing live performance events. Their core responsibilities involve navigating the show management panel to create new show entries, input show details (such as names, descriptions, venues, times, and initial capacities), save listings as invisible drafts, publish active shows to the public listings, or cancel scheduled events. The frequency of use for this class is Moderate, with usage peaking before the launch of new park seasons or when operational changes necessitate scheduling updates. System efficiency goals dictate that a Show Manager must be able to create, update, and instantly publish a show listing entry in less than 10 minutes using the administrative interface. Show Managers are highly receptive to digital coordination but possess limited overall technical proficiency, meaning they require a straightforward, form-driven, task-oriented user interface that minimizes complex navigation. They will receive a basic system orientation prior to deployment. System validations strictly prohibit a Show Manager from reducing a show's seat capacity below the total number of tickets already sold for that show, and prevent them from editing or cancelling any show that has already taken place.
+Administrator | An Administrator is a dedicated operational or IT staff member responsible for systemic oversight of the platform post-launch. Their core responsibilities include accessing the administrative dashboard to manage user accounts (including creating, editing, and deactivating staff profiles), enforce strict single-role assignments, and generate automated transaction and attendance reports. The frequency of use for this class is Moderate, performing user modifications infrequently while generating operational reports on a weekly or on-demand basis. Administrators are bound by a strict nonfunctional requirement ensuring that comprehensive report generation across any specified custom date range completes entirely within 2 minutes. Administrators are fully supportive of the system and are expected to possess the highest technical literacy among all human user classes. The water park must designate at least one administrator to oversee the platform after deployment. Role permissions strictly bar administrators from cancelling or deleting any scheduled shows, a responsibility reserved exclusively for Show Managers.
+Administrator
+An Administrator is a dedicated operational or IT staff member responsible for systemic oversight of the platform post-launch. Their core responsibilities include accessing the administrative dashboard to manage user accounts (including creating, editing, and deactivating staff profiles), enforce strict single-role assignments, and generate automated transaction and attendance reports. The frequency of use for this class is Moderate, performing user modifications infrequently while generating operational reports on a weekly or on-demand basis. Administrators are bound by a strict nonfunctional requirement ensuring that comprehensive report generation across any specified custom date range completes entirely within 2 minutes. Administrators are fully supportive of the system and are expected to possess the highest technical literacy among all human user classes. The water park must designate at least one administrator to oversee the platform after deployment. Role permissions strictly bar administrators from cancelling or deleting any scheduled shows, a responsibility reserved exclusively for Show Managers.
+Operating Environment
+Operating Environment ID | Description
+Operating Environment ID
+Description
+OE-01 | The SMS shall operate as a web application accessible via standard desktop and laptop web browsers, including current versions of Chrome, Safari, and Edge (Li-01, BO-06)
+OE-01
+The SMS shall operate as a web application accessible via standard desktop and laptop web browsers, including current versions of Chrome, Safari, and Edge (Li-01, BO-06)
+OE-02 | The SMS shall require an active internet connection for all functions; no offline mode or kiosk mode is supported (Li-06)
+OE-02
+The SMS shall require an active internet connection for all functions; no offline mode or kiosk mode is supported (Li-06)
+OE-03 | The SMS shall not provide a native iOS or Android mobile application in Release 1.0 (Li-01).
+OE-03
+The SMS shall not provide a native iOS or Android mobile application in Release 1.0 (Li-01).
+Design and Implementation Constraints
+Constraint ID | Description
+Constraint ID
+Description
+CO-01 | The SMS shall integrate with a single payment gateway provider for processing all online and counter transactions; support for additional payment providers is excluded from Release 1.0 (Li-09, De-01)
+CO-01
+The SMS shall integrate with a single payment gateway provider for processing all online and counter transactions; support for additional payment providers is excluded from Release 1.0 (Li-09, De-01)
+CO-02 | The SMS shall support only a single default language; multi-language support is excluded from Release 1.0 (Li-05)
+CO-02
+The SMS shall support only a single default language; multi-language support is excluded from Release 1.0 (Li-05)
+CO-03 | The SMS shall use a single default currency for all ticket pricing and transactions (As-05)
+CO-03
+The SMS shall use a single default currency for all ticket pricing and transactions (As-05)
+CO-04 | The SMS shall enforce role-based access control so that Visitors cannot access show management, cashier, or administrative functions (BR-01 through BR-09)
+CO-04
+The SMS shall enforce role-based access control so that Visitors cannot access show management, cashier, or administrative functions (BR-01 through BR-09)
+CO-05 | The SMS shall not store payment card data directly; all sensitive payment data shall be delegated to the integrated payment gateway (BR-22)
+CO-05
+The SMS shall not store payment card data directly; all sensitive payment data shall be delegated to the integrated payment gateway (BR-22)
+Assumptions and Dependencies
+The following assumptions and dependencies, established in the Vision and Scope Document [1], apply throughout this SRS:
+Assumption ID | Description
+Assumption ID
+Description
+As-01 | The water park has adequate and stable internet connectivity to support a web-based system for staff and visitors on premises
+As-01
+The water park has adequate and stable internet connectivity to support a web-based system for staff and visitors on premises 
+As-02 | Visitors are expected to bring personal devices (phones, tablets, laptops) or have access to shared park terminals to use the system
+As-02
+Visitors are expected to bring personal devices (phones, tablets, laptops) or have access to shared park terminals to use the system 
+As-03 | Show schedules are planned sufficiently in advance and can be entered into the system before shows begin accepting ticket purchases
+As-03
+Show schedules are planned sufficiently in advance and can be entered into the system before shows begin accepting ticket purchases 
+As-04 | All staff users (managers, cashiers, admins) will receive basic orientation on how to use the system before going live
+As-04
+All staff users (managers, cashiers, admins) will receive basic orientation on how to use the system before going live 
+As-05 | A single currency will be used for all ticket pricing and transactions
+As-05
+A single currency will be used for all ticket pricing and transactions 
+As-06 | The water park will designate at least one administrator responsible for overseeing the system after launch
+As-06
+The water park will designate at least one administrator responsible for overseeing the system after launch 
+Dependency ID | Description
+Dependency ID
+Description
+De-01 | A payment gateway provider must be selected and contracted by the water park prior to the development of the payment module
+De-01
+A payment gateway provider must be selected and contracted by the water park prior to the development of the payment module 
+De-02 | The water park's IT infrastructure (web hosting, domain, server environment) must be provisioned before system deployment
+De-02
+The water park's IT infrastructure (web hosting, domain, server environment) must be provisioned before system deployment 
+De-03 | Accurate initial data, including existing show details and staff account information, must be provided by the water park management for system setup
+De-03
+Accurate initial data, including existing show details and staff account information, must be provided by the water park management for system setup 
+De-04 | The system's email notification features (planned for a future release) will depend on a configured outbound email service (e.g., SMTP server or email API)
+De-04
+The system's email notification features (planned for a future release) will depend on a configured outbound email service (e.g., SMTP server or email API) 
+Functional Requirements
+The functional requirements below are organized by use case within user class, consistent with the Use Case Specification [2]. Each requirement is atomized from that use case's normal flow, alternative flows, or exceptions into a single, verifiable ‘shall’ statement. Requirements that enforce a specific business rule cite the rule's BR-NN identifier; the full rule definition is maintained in the Business Rules Document [3] (see also Section 7).
+Use Case for Park Visitors
+UC-01 Browse Show Schedules
+Description: A Park Visitor accesses the SMS through a standard web browser and views the list of available shows, including show names, dates, times, locations, and remaining seat capacity.  (Priority = High)
+ID | Requirement
+ID
+Requirement
+FR-01-1 | The SMS shall display a show listings page containing all currently scheduled shows when a visitor navigates to it.
+FR-01-1
+The SMS shall display a show listings page containing all currently scheduled shows when a visitor navigates to it.
+FR-01-2 | For each show on the listings page, the SMS shall display the show name, date, time, venue location, and available seat capacity (BR-15).
+FR-01-2
+For each show on the listings page, the SMS shall display the show name, date, time, venue location, and available seat capacity (BR-15).
+FR-01-3 | The SMS shall allow the visitor to filter or scroll through shows by date or time.
+FR-01-3
+The SMS shall allow the visitor to filter or scroll through shows by date or time.
+FR-01-4 | The SMS shall allow the visitor to select a show from the listings page to view its full details (see UC-02).
+FR-01-4
+The SMS shall allow the visitor to select a show from the listings page to view its full details (see UC-02).
+FR-01-5 | If no shows are currently scheduled, the SMS shall display a message indicating that no shows are currently available.
+FR-01-5
+If no shows are currently scheduled, the SMS shall display a message indicating that no shows are currently available. 
+UC-02 View Show Details
+Description: A Park Visitor selects a specific show from the show listings and views its full details, including show description, scheduled time, venue, duration, and remaining ticket availability.  (Priority = High)
+ID | Requirement
+ID
+Requirement
+FR-02-1 | When a visitor selects a show from the listings page, the SMS shall display a show detail page containing the show name, description, date and time, venue/location, duration, and remaining seat count.
+FR-02-1
+When a visitor selects a show from the listings page, the SMS shall display a show detail page containing the show name, description, date and time, venue/location, duration, and remaining seat count.
+FR-02-2 | The remaining seat count on the show detail page shall be updated in real time to reflect concurrent purchases.
+FR-02-2
+The remaining seat count on the show detail page shall be updated in real time to reflect concurrent purchases.
+FR-02-3 | The SMS shall allow the visitor to proceed to ticket purchase (see UC-04) or return to the listings page from the show detail page.
+FR-02-3
+The SMS shall allow the visitor to proceed to ticket purchase (see UC-04) or return to the listings page from the show detail page.
+FR-02-4 | If the selected show has no remaining seat capacity, the SMS shall mark the show as ‘Fully Booked’ on the detail page and disable the purchase option (BR-14).
+FR-02-4
+If the selected show has no remaining seat capacity, the SMS shall mark the show as ‘Fully Booked’ on the detail page and disable the purchase option (BR-14).
+FR-02-5 | If a show is cancelled after the visitor opens the listings page but before selecting it, the SMS shall display a message that the show is no longer available and shall redirect the visitor to the listings page.
+FR-02-5
+If a show is cancelled after the visitor opens the listings page but before selecting it, the SMS shall display a message that the show is no longer available and shall redirect the visitor to the listings page.
+UC-03 Register Visitor Account
+Description: A new Park Visitor creates an account in the SMS by providing their name, email address, and a password. Upon successful registration, the visitor can log in to manage bookings and purchase tickets online.  (Priority = High)
+ID | Requirement
+ID
+Requirement
+FR-03-1 | The SMS shall display a registration form requesting full name, email address, and password when a visitor selects ‘Register’.
+FR-03-1
+The SMS shall display a registration form requesting full name, email address, and password when a visitor selects ‘Register’.
+FR-03-2 | The SMS shall validate the submitted registration form fields before creating an account (see FR-03-6).
+FR-03-2
+The SMS shall validate the submitted registration form fields before creating an account (see FR-03-6).
+FR-03-3 | Upon successful validation, the SMS shall create a visitor account with the role of ‘Visitor’ (BR-35).
+FR-03-3
+Upon successful validation, the SMS shall create a visitor account with the role of ‘Visitor’ (BR-35).
+FR-03-4 | Upon successful registration, the SMS shall log the visitor in and redirect them to the show listings page.
+FR-03-4
+Upon successful registration, the SMS shall log the visitor in and redirect them to the show listings page.
+FR-03-5 | If the submitted email address already has an account registered to it, the SMS shall display an error message and prompt the visitor to log in or use a different email address (BR-34).
+FR-03-5
+If the submitted email address already has an account registered to it, the SMS shall display an error message and prompt the visitor to log in or use a different email address (BR-34).
+FR-03-6 | If the registration form contains invalid or incomplete input, the SMS shall highlight the fields with errors and allow the visitor to correct and resubmit them.
+FR-03-6
+If the registration form contains invalid or incomplete input, the SMS shall highlight the fields with errors and allow the visitor to correct and resubmit them.
+FR-03-7 | Passwords shall be at least 8 characters long and contain at least one letter and one number (BR-36).
+FR-03-7
+Passwords shall be at least 8 characters long and contain at least one letter and one number (BR-36).
+UC-04 Purchase Tickets Online
+Description: A logged-in Park Visitor selects a show and purchases one or more tickets online. The system reserves the selected seats, processes payment through the integrated payment gateway, and issues a booking confirmation with a unique reference number.  (Priority = High)
+ID | Requirement
+ID
+Requirement
+FR-04-1 | When a logged-in visitor selects ‘Buy Ticket’ on a show detail page, the SMS shall display a ticket selection screen showing available seats and the ticket price.
+FR-04-1
+When a logged-in visitor selects ‘Buy Ticket’ on a show detail page, the SMS shall display a ticket selection screen showing available seats and the ticket price.
+FR-04-2 | The SMS shall allow the visitor to select the number of tickets to purchase and proceed to checkout.
+FR-04-2
+The SMS shall allow the visitor to select the number of tickets to purchase and proceed to checkout.
+FR-04-3 | Upon proceeding to checkout, the SMS shall temporarily lock the selected seats for 10 minutes to prevent a concurrent transaction from causing overbooking of the same show (BR-11, BR-12).
+FR-04-3
+Upon proceeding to checkout, the SMS shall temporarily lock the selected seats for 10 minutes to prevent a concurrent transaction from causing overbooking of the same show (BR-11, BR-12).
+FR-04-4 | Before payment, the SMS shall display an order summary showing the show name, date, ticket count, and total price, calculated as ticket price multiplied by ticket count (BR-26).
+FR-04-4
+Before payment, the SMS shall display an order summary showing the show name, date, ticket count, and total price, calculated as ticket price multiplied by ticket count (BR-26).
+FR-04-5 | The SMS shall redirect the visitor to the integrated payment gateway to complete payment.
+FR-04-5
+The SMS shall redirect the visitor to the integrated payment gateway to complete payment.
+FR-04-6 | Upon receiving a successful payment confirmation from the payment gateway, the SMS shall finalize the booking, store the transaction, and release the seat lock (BR-23).
+FR-04-6
+Upon receiving a successful payment confirmation from the payment gateway, the SMS shall finalize the booking, store the transaction, and release the seat lock (BR-23).
+FR-04-7 | Upon finalizing a booking, the SMS shall display a booking confirmation containing a unique reference number (BR-17).
+FR-04-7
+Upon finalizing a booking, the SMS shall display a booking confirmation containing a unique reference number (BR-17).
+FR-04-8 | If a visitor who is not logged in selects ‘Buy Ticket’, the SMS shall redirect the visitor to the login page and, after successful login, return the visitor to the show detail page.
+FR-04-8
+If a visitor who is not logged in selects ‘Buy Ticket’, the SMS shall redirect the visitor to the login page and, after successful login, return the visitor to the show detail page.
+FR-04-9 | If the visitor requests more tickets than the show’s remaining seat capacity, the SMS shall inform the visitor of the maximum number of tickets available and allow the visitor to adjust the quantity or cancel the purchase (BR-10).
+FR-04-9
+If the visitor requests more tickets than the show’s remaining seat capacity, the SMS shall inform the visitor of the maximum number of tickets available and allow the visitor to adjust the quantity or cancel the purchase (BR-10).
+FR-04-10 | If the payment gateway returns a failure, the SMS shall inform the visitor that payment was unsuccessful, release the seat lock, and allow the visitor to retry payment or cancel the purchase (BR-13).
+FR-04-10
+If the payment gateway returns a failure, the SMS shall inform the visitor that payment was unsuccessful, release the seat lock, and allow the visitor to retry payment or cancel the purchase (BR-13).
+FR-04-11 | If the seat lock expires before payment is confirmed, the SMS shall notify the visitor that the session has timed out and shall require the visitor to restart the purchase process (BR-12).
+FR-04-11
+If the seat lock expires before payment is confirmed, the SMS shall notify the visitor that the session has timed out and shall require the visitor to restart the purchase process (BR-12).
+FR-04-12 | The SMS shall not store payment card data directly; all sensitive payment data shall be handled exclusively by the integrated payment gateway (BR-22).
+FR-04-12
+The SMS shall not store payment card data directly; all sensitive payment data shall be handled exclusively by the integrated payment gateway (BR-22).
+UC-05 Cancel Online Booking
+Description: A logged-in Park Visitor cancels a previously made ticket booking through their account. The system updates the booking status, restores the seat capacity for the relevant show, and confirms the cancellation.  (Priority = Medium)
+ID | Requirement
+ID
+Requirement
+FR-05-1 | The SMS shall display a list of the visitor’s active bookings when the visitor navigates to their account booking history.
+FR-05-1
+The SMS shall display a list of the visitor’s active bookings when the visitor navigates to their account booking history.
+FR-05-2 | The SMS shall allow the visitor to select a booking and request cancellation, and shall prompt the visitor to confirm before proceeding.
+FR-05-2
+The SMS shall allow the visitor to select a booking and request cancellation, and shall prompt the visitor to confirm before proceeding.
+FR-05-3 | Upon confirmation, the SMS shall update the booking status to ‘Cancelled’ (BR-19).
+FR-05-3
+Upon confirmation, the SMS shall update the booking status to ‘Cancelled’ (BR-19).
+FR-05-4 | Upon cancellation, the SMS shall restore the seat capacity of the booking’s associated show by the number of tickets released (BR-20).
+FR-05-4
+Upon cancellation, the SMS shall restore the seat capacity of the booking’s associated show by the number of tickets released (BR-20).
+FR-05-5 | Upon successful cancellation, the SMS shall display a cancellation confirmation message containing the booking reference.
+FR-05-5
+Upon successful cancellation, the SMS shall display a cancellation confirmation message containing the booking reference.
+FR-05-6 | If the visitor declines the cancellation confirmation prompt, the SMS shall return the visitor to the booking detail page without making changes.
+FR-05-6
+If the visitor declines the cancellation confirmation prompt, the SMS shall return the visitor to the booking detail page without making changes.
+FR-05-7 | The SMS shall not permit cancellation of a booking whose associated show has already taken place; the cancel option shall not be displayed for such bookings (BR-18).
+FR-05-7
+The SMS shall not permit cancellation of a booking whose associated show has already taken place; the cancel option shall not be displayed for such bookings (BR-18).
+FR-05-8 | If a visitor attempts to cancel a booking that already has a status of ‘Cancelled’, the SMS shall display the booking’s ‘Cancelled’ status and take no further action (BR-19).
+FR-05-8
+If a visitor attempts to cancel a booking that already has a status of ‘Cancelled’, the SMS shall display the booking’s ‘Cancelled’ status and take no further action (BR-19).
+FR-05-9 | Automated refund processing is out of scope for Release 1.0; cancellation and refund policy terms shall be defined by Water Park Management outside the system (BR-21).
+FR-05-9
+Automated refund processing is out of scope for Release 1.0; cancellation and refund policy terms shall be defined by Water Park Management outside the system (BR-21).
+Use Cases for Cashiers
+UC-06 Issue Ticket at Counter
+Description: A Cashier uses the SMS point-of-sale interface to assist a walk-in visitor at a physical park counter. The cashier selects an available show, specifies the ticket quantity, processes payment, and issues a booking confirmation with a reference number.  (Priority = High)
+ID | Requirement
+ID
+Requirement
+FR-06-1 | The SMS shall provide a cashier point-of-sale interface accessible to users logged in with the Cashier role (BR-07).
+FR-06-1
+The SMS shall provide a cashier point-of-sale interface accessible to users logged in with the Cashier role (BR-07).
+FR-06-2 | The SMS shall allow a cashier to search for or select a show and shall display its details and available seat count.
+FR-06-2
+The SMS shall allow a cashier to search for or select a show and shall display its details and available seat count.
+FR-06-3 | The SMS shall allow a cashier to enter the number of tickets requested and shall display the order total, calculated as ticket price multiplied by ticket count (BR-26).
+FR-06-3
+The SMS shall allow a cashier to enter the number of tickets requested and shall display the order total, calculated as ticket price multiplied by ticket count (BR-26).
+FR-06-4 | The SMS shall allow a cashier to process payment for a counter sale through the integrated payment gateway.
+FR-06-4
+The SMS shall allow a cashier to process payment for a counter sale through the integrated payment gateway.
+FR-06-5 | Upon payment confirmation, the SMS shall issue the booking and generate a unique reference number for the cashier to provide to the visitor (BR-17, BR-23).
+FR-06-5
+Upon payment confirmation, the SMS shall issue the booking and generate a unique reference number for the cashier to provide to the visitor (BR-17, BR-23).
+FR-06-6 | The SMS shall allow a cashier to look up an existing booking by reference number or visitor name and display its details.
+FR-06-6
+The SMS shall allow a cashier to look up an existing booking by reference number or visitor name and display its details.
+FR-06-7 | If the requested ticket quantity exceeds the show’s remaining seat capacity, the SMS shall alert the cashier of the maximum number of tickets available (BR-10).
+FR-06-7
+If the requested ticket quantity exceeds the show’s remaining seat capacity, the SMS shall alert the cashier of the maximum number of tickets available (BR-10).
+FR-06-8 | If payment fails during a counter sale, the SMS shall notify the cashier of the payment failure and allow the transaction to be retried or cancelled (BR-13).
+FR-06-8
+If payment fails during a counter sale, the SMS shall notify the cashier of the payment failure and allow the transaction to be retried or cancelled (BR-13).
+FR-06-9 | The cashier interface shall be designed to support completing a counter transaction within the 1.5-minute processing target defined in BO-03.
+FR-06-9
+The cashier interface shall be designed to support completing a counter transaction within the 1.5-minute processing target defined in BO-03.
+FR-06-10 | The SMS shall not permit a Cashier to access visitor account management or administrative reporting functions (BR-07).
+FR-06-10
+The SMS shall not permit a Cashier to access visitor account management or administrative reporting functions (BR-07).
+Use Cases for Show Managers
+UC-07 Create and Edit Show Listing
+Description: A Show Manager creates a new show listing in the SMS by entering show details including name, description, date, time, venue, and seat capacity. The manager may also edit an existing show listing to update any of these details.  (Priority = High)
+ID | Requirement
+ID
+Requirement
+FR-07-1 | The SMS shall provide a show management panel accessible to users logged in with the Show Manager role (BR-08, BR-27).
+FR-07-1
+The SMS shall provide a show management panel accessible to users logged in with the Show Manager role (BR-08, BR-27). 
+FR-07-2 | The SMS shall display a show entry form with fields for show name, description, date, time, venue/location, and seat capacity, for both creating a new show and editing an existing show.
+FR-07-2
+The SMS shall display a show entry form with fields for show name, description, date, time, venue/location, and seat capacity, for both creating a new show and editing an existing show.
+FR-07-3 | The SMS shall validate the submitted show entry form before saving (see FR-07-6).
+FR-07-3
+The SMS shall validate the submitted show entry form before saving (see FR-07-6).
+FR-07-4 | Upon successful validation, the SMS shall save the show, publish it to the visitor-facing listings, and confirm the action with a success message.
+FR-07-4
+Upon successful validation, the SMS shall save the show, publish it to the visitor-facing listings, and confirm the action with a success message.
+FR-07-5 | The SMS shall allow a Show Manager to save a show with a status of ‘Draft’, which shall not be visible to visitors until published (BR-28).
+FR-07-5
+The SMS shall allow a Show Manager to save a show with a status of ‘Draft’, which shall not be visible to visitors until published (BR-28).
+FR-07-6 | If required fields are missing from the show entry form, the SMS shall highlight the empty required fields and allow the manager to complete and resubmit them.
+FR-07-6
+If required fields are missing from the show entry form, the SMS shall highlight the empty required fields and allow the manager to complete and resubmit them.
+FR-07-7 | If a submitted show’s date or time conflicts with an existing show at the same venue, the SMS shall warn the manager of the conflict before the show can be saved (BR-29).
+FR-07-7
+If a submitted show’s date or time conflicts with an existing show at the same venue, the SMS shall warn the manager of the conflict before the show can be saved (BR-29).
+FR-07-8 | The SMS shall not permit a Show Manager to reduce a show’s seat capacity below the number of tickets already sold for that show (BR-16).
+FR-07-8
+The SMS shall not permit a Show Manager to reduce a show’s seat capacity below the number of tickets already sold for that show (BR-16).
+FR-07-9 | The SMS shall not permit a show to be edited after it has taken place (BR-30).
+FR-07-9
+The SMS shall not permit a show to be edited after it has taken place (BR-30).
+FR-07-10 | The SMS shall record every show creation or edit action in the system audit log (BR-38).
+FR-07-10
+The SMS shall record every show creation or edit action in the system audit log (BR-38).
+UC-08 Cancel a Show
+Description: A Show Manager cancels a previously scheduled show in the SMS. The system updates the show status to ‘Cancelled’, removes it from the visitor-facing listings, and restores all reserved seat capacity.  (Priority = High)
+ID | Requirement
+ID
+Requirement
+FR-08-1 | The SMS shall allow a Show Manager to select a show and request its cancellation from the show management panel, subject to confirmation (BR-08, BR-27).
+FR-08-1
+The SMS shall allow a Show Manager to select a show and request its cancellation from the show management panel, subject to confirmation (BR-08, BR-27).
+FR-08-2 | Upon confirmation, the SMS shall update the show’s status to ‘Cancelled’, remove it from the visitor-facing listings, and release all seat reservations associated with the show (BR-33).
+FR-08-2
+Upon confirmation, the SMS shall update the show’s status to ‘Cancelled’, remove it from the visitor-facing listings, and release all seat reservations associated with the show (BR-33).
+FR-08-3 | Upon successful cancellation, the SMS shall display a confirmation message.
+FR-08-3
+Upon successful cancellation, the SMS shall display a confirmation message.
+FR-08-4 | If the manager declines the cancellation confirmation prompt, the SMS shall return to the show detail page without making changes.
+FR-08-4
+If the manager declines the cancellation confirmation prompt, the SMS shall return to the show detail page without making changes.
+FR-08-5 | The SMS shall not permit cancellation of a show that has already taken place; the cancel option shall not be displayed for such shows (BR-30, BR-31).
+FR-08-5
+The SMS shall not permit cancellation of a show that has already taken place; the cancel option shall not be displayed for such shows (BR-30, BR-31).
+FR-08-6 | If a Show Manager attempts to cancel a show that already has a status of ‘Cancelled’, the SMS shall display the show’s ‘Cancelled’ status and take no further action (BR-32).
+FR-08-6
+If a Show Manager attempts to cancel a show that already has a status of ‘Cancelled’, the SMS shall display the show’s ‘Cancelled’ status and take no further action (BR-32).
+FR-08-7 | The SMS shall record every show cancellation action in the system audit log (BR-38).
+FR-08-7
+The SMS shall record every show cancellation action in the system audit log (BR-38).
+Use Cases for Administrators
+UC-09: Manage User Accounts and Generate Reports
+Description: An Administrator uses the admin dashboard to manage user accounts (create, edit, deactivate staff accounts) and to generate transaction and attendance reports for shows.  (Priority = High)
+ID | Requirement
+ID
+Requirement
+FR-09-1 | The SMS shall provide an admin dashboard with user management and reporting sections, accessible to users logged in with the Administrator role (BR-09).
+FR-09-1
+The SMS shall provide an admin dashboard with user management and reporting sections, accessible to users logged in with the Administrator role (BR-09).
+FR-09-2 | The SMS shall allow an Administrator to create, edit, or deactivate a staff account (Show Manager, Cashier, or Administrator) (BR-02).
+FR-09-2
+The SMS shall allow an Administrator to create, edit, or deactivate a staff account (Show Manager, Cashier, or Administrator) (BR-02).
+FR-09-3 | When an Administrator creates a new staff account, the SMS shall require the account’s name, email, role, and a temporary password; the new staff member shall be required to change this password at first login (BR-37).
+FR-09-3
+When an Administrator creates a new staff account, the SMS shall require the account’s name, email, role, and a temporary password; the new staff member shall be required to change this password at first login (BR-37).
+FR-09-4 | The SMS shall allow an Administrator to select a report type (transaction or attendance), specify a date range, and request the report.
+FR-09-4
+The SMS shall allow an Administrator to select a report type (transaction or attendance), specify a date range, and request the report.
+FR-09-5 | The SMS shall generate and display the requested report and shall allow the Administrator to export it.
+FR-09-5
+The SMS shall generate and display the requested report and shall allow the Administrator to export it.
+FR-09-6 | Report generation shall complete within 2 minutes of being requested (BR-39).
+FR-09-6
+Report generation shall complete within 2 minutes of being requested (BR-39).
+FR-09-7 | If no data exists for the selected report date range, the SMS shall display a message indicating that no records were found and allow the Administrator to select a different date range.
+FR-09-7
+If no data exists for the selected report date range, the SMS shall display a message indicating that no records were found and allow the Administrator to select a different date range.
+FR-09-8 | If an Administrator attempts to create a staff account using an email address that already has an account, the SMS shall alert the Administrator and allow the input to be corrected.
+FR-09-8
+If an Administrator attempts to create a staff account using an email address that already has an account, the SMS shall alert the Administrator and allow the input to be corrected.
+FR-09-9 | The SMS shall not permit an Administrator to cancel or delete a show; only a Show Manager may cancel a show (see UC-08) (BR-09).
+FR-09-9
+The SMS shall not permit an Administrator to cancel or delete a show; only a Show Manager may cancel a show (see UC-08) (BR-09).
+FR-09-10 | The SMS shall record every administrative user-management action in the system audit log (BR-38).
+FR-09-10
+The SMS shall record every administrative user-management action in the system audit log (BR-38).
+System-Wide Requirements
+UC-10 Role-Based Access Enforcement
+Description: The SMS automatically enforces role-based access control for all users. When any user attempts to access a feature or page, the system verifies their assigned role and either grants or denies access accordingly. This requirement group applies implicitly across all other use cases.  (Priority = High)
+ID | Requirement
+ID
+Requirement
+FR-10-1 | The SMS shall retrieve the requesting user’s assigned role from their session whenever the user attempts to access a feature, page, or action (BR-01, BR-03).
+FR-10-1
+The SMS shall retrieve the requesting user’s assigned role from their session whenever the user attempts to access a feature, page, or action (BR-01, BR-03).
+FR-10-2 | Before granting access, the SMS shall check the user’s role against the access control policy defined for the requested feature (BR-03).
+FR-10-2
+Before granting access, the SMS shall check the user’s role against the access control policy defined for the requested feature (BR-03).
+FR-10-3 | If the user’s role permits the requested action, the SMS shall load the requested feature.
+FR-10-3
+If the user’s role permits the requested action, the SMS shall load the requested feature.
+FR-10-4 | If a user who is not logged in attempts to access a feature, the SMS shall redirect the user to the login page and re-evaluate access after successful login.
+FR-10-4
+If a user who is not logged in attempts to access a feature, the SMS shall redirect the user to the login page and re-evaluate access after successful login.
+FR-10-5 | If the user’s role does not permit access to the requested feature, the SMS shall display an ‘Access Denied’ message and redirect the user to their role-appropriate home page (BR-04).
+FR-10-5
+If the user’s role does not permit access to the requested feature, the SMS shall display an ‘Access Denied’ message and redirect the user to their role-appropriate home page (BR-04).
+FR-10-6 | The SMS shall record every denied access attempt in the system audit log (BR-05).
+FR-10-6
+The SMS shall record every denied access attempt in the system audit log (BR-05).
+FR-10-7 | If a user’s session has expired, the SMS shall invalidate the session and redirect the user to the login page.
+FR-10-7
+If a user’s session has expired, the SMS shall invalidate the session and redirect the user to the login page.
+FR-10-8 | The SMS shall restrict Visitors to browsing shows and to purchasing, viewing, and cancelling only their own ticket bookings and account (BR-06).
+FR-10-8
+The SMS shall restrict Visitors to browsing shows and to purchasing, viewing, and cancelling only their own ticket bookings and account (BR-06).
+FR-10-9 | The SMS shall restrict Show Managers to creating, editing, and cancelling shows (BR-08).
+FR-10-9
+The SMS shall restrict Show Managers to creating, editing, and cancelling shows (BR-08).
+FR-10-10 | The SMS shall restrict Cashiers to issuing tickets at the counter and looking up bookings (BR-07).
+FR-10-10
+The SMS shall restrict Cashiers to issuing tickets at the counter and looking up bookings (BR-07).
+FR-10-11 | The SMS shall restrict Administrators to user account management and report generation, and shall not permit Administrators to cancel or delete shows (BR-09).
+FR-10-11
+The SMS shall restrict Administrators to user account management and report generation, and shall not permit Administrators to cancel or delete shows (BR-09).
+FR-10-12 | Each user account shall be assigned exactly one role: Visitor, Show Manager, Cashier, or Administrator (BR-01).
+FR-10-12
+Each user account shall be assigned exactly one role: Visitor, Show Manager, Cashier, or Administrator (BR-01).
+FR-10-13 | Role assignments shall only be created or changed by an Administrator (BR-02).
+FR-10-13
+Role assignments shall only be created or changed by an Administrator (BR-02). 
+UC-11 Account Login
+Description: A registered user authenticates into the Show Management System (SMS) using their email address and password to establish a session and access role-specific features. This use case applies to all user roles (Visitor, Show Manager, Cashier, and Administrator). (Priority = High) 
+ID | Requirement
+ID
+Requirement
+FR-11-1 | The SMS shall display a login form requesting an email address and password when a user navigates to the login page or is redirected there.
+FR-11-1
+The SMS shall display a login form requesting an email address and password when a user navigates to the login page or is redirected there.
+FR-11-2 | The SMS shall validate the submitted email address and password against system records.
+FR-11-2
+The SMS shall validate the submitted email address and password against system records.
+FR-11-3 | Upon successful validation, the SMS shall retrieve the user's single assigned role (Visitor, Show Manager, Cashier, or Administrator) and establish an authenticated secure session (BR-01).
+FR-11-3
+Upon successful validation, the SMS shall retrieve the user's single assigned role (Visitor, Show Manager, Cashier, or Administrator) and establish an authenticated secure session (BR-01).
+FR-11-4 | Upon successful login, the SMS shall redirect the user to their role-appropriate home page or to the restricted feature they originally requested (BR-04).
+FR-11-4
+Upon successful login, the SMS shall redirect the user to their role-appropriate home page or to the restricted feature they originally requested (BR-04).
+FR-11-5 | If a user logs in to a staff account (Show Manager, Cashier, Administrator) for the first time using a temporary password, the SMS shall prompt the user to change their password before granting system access (BR-37).
+FR-11-5
+If a user logs in to a staff account (Show Manager, Cashier, Administrator) for the first time using a temporary password, the SMS shall prompt the user to change their password before granting system access (BR-37).
+FR-11-6 | The SMS shall enforce that any new password submitted during the mandatory password change is at least 8 characters long and contains at least one letter and one number (BR-36).
+FR-11-6
+The SMS shall enforce that any new password submitted during the mandatory password change is at least 8 characters long and contains at least one letter and one number (BR-36).
+FR-11-7 | If the submitted credentials are invalid, the SMS shall display an error message, clear the password field, and require the user to re-enter their credentials.
+FR-11-7
+If the submitted credentials are invalid, the SMS shall display an error message, clear the password field, and require the user to re-enter their credentials.
+FR-11-8 | If an Administrator has deactivated a staff account, the SMS shall deny login access for that account and display an 'Access Denied' or 'Account Inactive' message.
+FR-11-8
+If an Administrator has deactivated a staff account, the SMS shall deny login access for that account and display an 'Access Denied' or 'Account Inactive' message.
+Data Requirements
+Logical Data Model
+The SMS is organized around six core entities. A Visitor Account or Staff Account (role: Show Manager, Cashier, or Administrator) identifies a user and their single assigned role (BR-01). A Show is created and maintained by a Show Manager and has a status of Draft, Published, or Cancelled, together with a total and remaining seat capacity. A Booking links one Show to either a Visitor Account (online channel) or a Cashier-issued counter sale, and records the ticket quantity, total price, unique reference number, and status (Confirmed or Cancelled). Each finalized Booking is associated with one Payment record, which stores the outcome (Success or Failed) of the corresponding payment gateway transaction; the gateway itself, not the SMS, retains the underlying payment card data (BR-22). Every administrative action and denied access attempt is recorded as an Audit Log Entry, referencing the acting account. Relationships: one Show has many Bookings; one Visitor Account has many Bookings; one Staff Account (Show Manager) manages many Shows; one Booking has at most one Payment; many Audit Log Entries reference one account.
+Data Dictionary
+Data definitions and structures governing the SMS are maintained as a single, authoritative catalog in the companion Data Dictionary Document [4], ensuring that core data specifications can be updated independently of this SRS without risk of version drift. The table below provides a condensed summary index for quick reference; the complete technical specifications are maintained in [4], not repeated here. Core data elements and structures throughout §4.2 of this SRS cite the specific identifiers defined in this master index to maintain strict structural consistency across the system. 
+Data Element | Description | Composition / Data Type | Length | Values
+Data Element
+Description
+Composition / Data Type
+Length
+Values
+booking | details of a ticket transaction for a show | booking reference number + show ID + ticket quantity + total price + booking status + channel | — | —
+booking
+details of a ticket transaction for a show
+booking reference number + show ID + ticket quantity + total price + booking status + channel
+—
+—
+booking reference number | unique identifier issued upon a completed booking, online or at counter | alphanumeric | — | unique per booking (BR-17)
+booking reference number
+unique identifier issued upon a completed booking, online or at counter
+alphanumeric
+—
+unique per booking (BR-17)
+booking status | current status of a booking | alphabetic | 10 | Confirmed, Cancelled (BR-19)
+booking status
+current status of a booking
+alphabetic
+10
+Confirmed, Cancelled (BR-19)
+booking channel | channel through which a booking was made | alphabetic | 7 | Online, Counter
+booking channel
+channel through which a booking was made
+alphabetic
+7
+Online, Counter
+show | details of a scheduled show | show ID + name + description + date/time + venue + seat capacity + remaining capacity + status | — | —
+show
+details of a scheduled show
+show ID + name + description + date/time + venue + seat capacity + remaining capacity + status
+—
+—
+show status | current publication status of a show | alphabetic | 10 | Draft, Published, Cancelled (BR-28, BR-32)
+show status
+current publication status of a show
+alphabetic
+10
+Draft, Published, Cancelled (BR-28, BR-32)
+seat capacity | total number of tickets that may be sold for a show | integer | — | on edit, must not be less than tickets already sold (BR-16)
+seat capacity
+total number of tickets that may be sold for a show
+integer
+—
+on edit, must not be less than tickets already sold (BR-16)
+remaining seat capacity | number of tickets still available for a show | integer | — | decremented on booking, restored on cancellation (BR-10, BR-20)
+remaining seat capacity
+number of tickets still available for a show
+integer
+—
+decremented on booking, restored on cancellation (BR-10, BR-20)
+ticket price | price of a single ticket for a show | numeric, single default currency | — | (As-05)
+ticket price
+price of a single ticket for a show
+numeric, single default currency
+—
+(As-05)
+ticket quantity | number of tickets included in a single booking | integer | — | must not exceed remaining seat capacity (BR-10)
+ticket quantity
+number of tickets included in a single booking
+integer
+—
+must not exceed remaining seat capacity (BR-10)
+total price | total price of a booking | numeric, single default currency | — | = ticket price × ticket quantity (BR-26)
+total price
+total price of a booking
+numeric, single default currency
+—
+= ticket price × ticket quantity (BR-26)
+payment status | outcome of a payment gateway transaction | alphabetic | 7 | Success, Failed (BR-23)
+payment status
+outcome of a payment gateway transaction
+alphabetic
+7
+Success, Failed (BR-23)
+audit log entry | record of an administrative action or a denied access attempt | actor account ID + action type + target entity + timestamp | — | (BR-05, BR-38)
+audit log entry
+record of an administrative action or a denied access attempt
+actor account ID + action type + target entity + timestamp
+—
+(BR-05, BR-38)
+Reports
+Transaction Report
+Report ID: | SMS-RPT-1
+Report ID:
+SMS-RPT-1
+Report Title: | Transaction Report
+Report Title:
+Transaction Report
+Report Purpose: | An Administrator wants to see a summary of ticket transactions, both online and at the counter, over a specified date range, to support financial oversight and satisfy BO-04.
+Report Purpose:
+An Administrator wants to see a summary of ticket transactions, both online and at the counter, over a specified date range, to support financial oversight and satisfy BO-04.
+Priority: | High
+Priority:
+High
+Report User: | Administrators
+Report User:
+Administrators
+Data Sources: | Booking and payment records
+Data Sources:
+Booking and payment records
+Frequency and Disposition: | Generated on demand by an Administrator. Report is displayed on screen and may be exported.
+Frequency and Disposition:
+Generated on demand by an Administrator. Report is displayed on screen and may be exported.
+Latency: | Report shall be generated and displayed within 2 minutes of being requested (BR-39).
+Latency:
+Report shall be generated and displayed within 2 minutes of being requested (BR-39).
+Visual Layout: | Tabular, landscape orientation
+Visual Layout:
+Tabular, landscape orientation
+Header and Footer: | Report header shall contain the report title, the requesting Administrator's name, and the date range specified.
+Header and Footer:
+Report header shall contain the report title, the requesting Administrator's name, and the date range specified.
+Report Body: | Fields: booking reference number, show name, channel (Online/Counter), ticket quantity, total price, payment status, transaction date. Selection criteria: date range specified by the Administrator. Sort criteria: chronological order
+Report Body:
+Fields: booking reference number, show name, channel (Online/Counter), ticket quantity, total price, payment status, transaction date. 
+Selection criteria: date range specified by the Administrator. 
+Sort criteria: chronological order
+Interactivity: | None specified for Release 1.0.
+Interactivity:
+None specified for Release 1.0. 
+Security Access Restrictions | Only Administrators may generate or view this report (BR-09).
+Security Access Restrictions
+Only Administrators may generate or view this report (BR-09).
+Attendance Report
+Report ID: | SMS-RPT-2
+Report ID:
+SMS-RPT-2
+Report Title: | Attendance Report
+Report Title:
+Attendance Report
+Report Purpose: | An Administrator wants to see show attendance figures, including tickets sold and capacity utilization, over a specified date range, to support show planning and satisfy BO-04 and SM-01.
+Report Purpose:
+An Administrator wants to see show attendance figures, including tickets sold and capacity utilization, over a specified date range, to support show planning and satisfy BO-04 and SM-01.
+Priority: | Medium
+Priority:
+Medium
+Report User: | Administrators
+Report User:
+Administrators
+Data Sources: | Show and booking records
+Data Sources:
+Show and booking records
+Frequency and Disposition: | Generated on demand by an Administrator. Report is displayed on screen and may be exported.
+Frequency and Disposition:
+Generated on demand by an Administrator. Report is displayed on screen and may be exported.
+Latency: | Report shall be generated and displayed within 2 minutes of being requested (BR-39).
+Latency:
+Report shall be generated and displayed within 2 minutes of being requested (BR-39).
+Visual Layout: | Tabular, landscape orientation
+Visual Layout:
+Tabular, landscape orientation
+Header and Footer: | Report header shall contain the report title, the requesting Administrator's name, and the date range specified.
+Header and Footer:
+Report header shall contain the report title, the requesting Administrator's name, and the date range specified.
+Report Body: | Fields: show name, date, seat capacity, tickets sold, capacity utilization (%). Selection criteria: date range specified by the Administrator. Sort criteria: chronological order by show date.
+Report Body:
+Fields: show name, date, seat capacity, tickets sold, capacity utilization (%). 
+Selection criteria: date range specified by the Administrator. 
+Sort criteria: chronological order by show date.
+Interactivity: | None specified for Release 1.0.
+Interactivity:
+None specified for Release 1.0. 
+Security Access Restrictions | Only Administrators may generate or view this report (BR-09).
+Security Access Restrictions
+Only Administrators may generate or view this report (BR-09).
+Data Integrity, Retention, and Disposal
+Data Integrity ID | Description
+Data Integrity ID
+Description
+DI-01 | The SMS shall retain booking and transaction records for a minimum of 3 years following the transaction date, to support financial reporting and dispute resolution
+DI-01
+The SMS shall retain booking and transaction records for a minimum of 3 years following the transaction date, to support financial reporting and dispute resolution
+DI-02 | The SMS shall retain audit log entries, including administrative actions and denied access attempts, for a minimum of 1 year following the date of the recorded action (BR-05, BR-38)
+DI-02
+The SMS shall retain audit log entries, including administrative actions and denied access attempts, for a minimum of 1 year following the date of the recorded action (BR-05, BR-38) 
+External Interface Requirement
+User Interfaces
+User Interface ID | Description
+User Interface ID
+Description
+UI-01 | The SMS shall provide a consistent navigational structure across all pages, appropriate to the logged-in user's role
+UI-01
+The SMS shall provide a consistent navigational structure across all pages, appropriate to the logged-in user's role 
+UI-02 | The SMS shall clearly indicate show availability status (e.g., ‘Fully Booked’) using a visible label on show listings and detail pages (BR-14)
+UI-02
+The SMS shall clearly indicate show availability status (e.g., ‘Fully Booked’) using a visible label on show listings and detail pages (BR-14)
+UI-03 | The SMS shall display confirmation messages (booking confirmation, cancellation confirmation, account and show management actions) on screen immediately following the corresponding action
+UI-03
+The SMS shall display confirmation messages (booking confirmation, cancellation confirmation, account and show management actions) on screen immediately following the corresponding action
+Software Interfaces
+Software Interface ID | Description
+Software Interface ID
+Description
+SI-1 | Payment Gateway
+SI-1
+Payment Gateway
+SI-1.1 | The SMS shall transmit ticket purchase transactions, whether initiated online or at the counter, to the integrated payment gateway through a programmatic interface
+SI-1.1
+The SMS shall transmit ticket purchase transactions, whether initiated online or at the counter, to the integrated payment gateway through a programmatic interface 
+SI-1.2 | The SMS shall receive and process the success or failure confirmation returned by the payment gateway for each transaction (BR-23)
+SI-1.2
+The SMS shall receive and process the success or failure confirmation returned by the payment gateway for each transaction (BR-23)
+SI-1.3 | The SMS shall not transmit or store raw payment card data outside of the payment gateway's own interface (BR-22)
+SI-1.3
+The SMS shall not transmit or store raw payment card data outside of the payment gateway's own interface (BR-22)
+Hardware Interfaces
+No hardware interfaces have been identified for Release 1.0; the SMS operates entirely as a browser-based web application (Li-01).
+Communications Interfaces
+Comms Interface ID | Description
+Comms Interface ID
+Description
+CI-01 | In Release 1.0, the SMS's only outbound communications interface is the redirect to, and response from, the integrated payment gateway (see SI-1). Email or SMS notifications for bookings and show cancellations are deferred to Release 1.1 (De-04); booking and cancellation confirmations in Release 1.0 are displayed on screen only
+CI-01
+In Release 1.0, the SMS's only outbound communications interface is the redirect to, and response from, the integrated payment gateway (see SI-1). Email or SMS notifications for bookings and show cancellations are deferred to Release 1.1 (De-04); booking and cancellation confirmations in Release 1.0 are displayed on screen only 
+Quality Attributes
+Usability Requirements
+Usability Req. ID | Description
+Usability Req. ID
+Description
+USE-01 | A Cashier who has received basic system orientation shall be able to complete a counter ticket sale without requiring further training (As-04, BO-03)
+USE-01
+A Cashier who has received basic system orientation shall be able to complete a counter ticket sale without requiring further training (As-04, BO-03)
+USE-02 | A Show Manager with limited technical proficiency shall be able to create or edit a show listing using the management interface without developer assistance
+USE-02
+A Show Manager with limited technical proficiency shall be able to create or edit a show listing using the management interface without developer assistance 
+Performance Requirements
+Performance Req. ID | Description
+Performance Req. ID
+Description
+PER-01 | The SMS shall support completion of a counter ticket transaction in an average of 1.5 minutes or less (BO-03)
+PER-01
+The SMS shall support completion of a counter ticket transaction in an average of 1.5 minutes or less (BO-03)
+PER-02 | The SMS shall generate a transaction or attendance report within 2 minutes of the report being requested (BO-04, BR-39)
+PER-02
+The SMS shall generate a transaction or attendance report within 2 minutes of the report being requested (BO-04, BR-39)
+PER-03 | The SMS shall update displayed seat availability in real time to reflect concurrent bookings across online and counter channels (BR-15)
+PER-03
+The SMS shall update displayed seat availability in real time to reflect concurrent bookings across online and counter channels (BR-15)
+Security Requirements
+Security Req. ID | Description
+Security Req. ID
+Description
+SEC-01 | The SMS shall not store payment card data directly; all sensitive payment data shall be handled exclusively by the integrated payment gateway (BR-22)
+SEC-01
+The SMS shall not store payment card data directly; all sensitive payment data shall be handled exclusively by the integrated payment gateway (BR-22)
+SEC-02 | The SMS shall require a user to be logged in and assigned a role before granting access to any feature other than browsing published show listings (BR-01, BR-03)
+SEC-02
+The SMS shall require a user to be logged in and assigned a role before granting access to any feature other than browsing published show listings (BR-01, BR-03)
+SEC-03 | The SMS shall verify a user's role against the access control policy for a requested feature before granting access, and shall log all denied access attempts (BR-04, BR-05)
+SEC-03
+The SMS shall verify a user's role against the access control policy for a requested feature before granting access, and shall log all denied access attempts (BR-04, BR-05)
+SEC-04 | A Visitor shall be permitted to view, purchase, or cancel only their own ticket bookings (BR-06)
+SEC-04
+A Visitor shall be permitted to view, purchase, or cancel only their own ticket bookings (BR-06) 
+Safety Requirements
+No safety-critical requirements have been identified for Release 1.0 of the SMS.
+Availability Requirements
+Availability Req. ID | Description
+Availability Req. ID
+Description
+AVL-01 | The SMS shall be available with an uptime of at least 99.8% per month, accessible 24/7 via standard web browsers (BO-06)
+AVL-01
+The SMS shall be available with an uptime of at least 99.8% per month, accessible 24/7 via standard web browsers (BO-06)
+Robustness Requirements
+Robustness Req. ID | Description
+Robustness Req. ID
+Description
+ROB-01 | If the SMS becomes unavailable while a visitor is browsing show listings, the browser shall display a connection error and the visitor shall be advised to try again later
+ROB-01
+If the SMS becomes unavailable while a visitor is browsing show listings, the browser shall display a connection error and the visitor shall be advised to try again later
+ROB-02 | If a visitor's seat lock expires because payment was not completed in time, the SMS shall automatically release the locked seats back into the show's available capacity rather than leaving them permanently reserved (BR-12)
+ROB-02
+If a visitor's seat lock expires because payment was not completed in time, the SMS shall automatically release the locked seats back into the show's available capacity rather than leaving them permanently reserved (BR-12)
+Business Rules
+Business rules governing the SMS are maintained as a single, authoritative catalog in the companion Business Rules Document [3] (BR-01 through BR-39), so that they can be reviewed and updated independently of this SRS. The table below is a condensed, ID-plus-definition index for quick reference; each rule's full classification (Type of Rule, Static or Dynamic) and Source traceability are maintained in [3], not repeated here. Functional and nonfunctional requirements throughout this SRS cite the specific BR-NN identifiers they enforce.
+Business Rule ID | Rule Definition | Type of Rule | Static or Dynamic | Source
+Business Rule ID
+Rule Definition
+Type of Rule
+Static or Dynamic
+Source
+BR-01 | Each user account is assigned exactly one role: Visitor, Show Manager, Cashier, or Administrator. | Fact | Static | Group 4
+BR-01
+Each user account is assigned exactly one role: Visitor, Show Manager, Cashier, or Administrator.
+Fact
+Static
+Group 4
+BR-02 | Role assignments may only be created or changed by an Administrator. | Constraint | Static | Group 4
+BR-02
+Role assignments may only be created or changed by an Administrator.
+Constraint
+Static
+Group 4
+BR-03 | Before granting access to any feature, page, or action, the system must verify the requesting user's role against the access control policy for that feature. | Constraint | Static | Group 4
+BR-03
+Before granting access to any feature, page, or action, the system must verify the requesting user's role against the access control policy for that feature.
+Constraint
+Static
+Group 4
+BR-04 | If a user's role does not permit access to a requested feature, the system must deny access, display an ‘Access Denied’ message, and redirect the user to their role-appropriate home page. | Action Enabler | Dynamic | Group 4
+BR-04
+If a user's role does not permit access to a requested feature, the system must deny access, display an ‘Access Denied’ message, and redirect the user to their role-appropriate home page.
+Action Enabler
+Dynamic
+Group 4
+BR-05 | Every denied access attempt must be recorded in the system audit log. | Fact | Static | Group 4
+BR-05
+Every denied access attempt must be recorded in the system audit log.
+Fact
+Static
+Group 4
+BR-06 | Visitors may browse shows and purchase, view, and cancel only their own ticket bookings; they may not access show management, cashier, or administrative functions. | Constraint | Static | Group 4
+BR-06
+Visitors may browse shows and purchase, view, and cancel only their own ticket bookings; they may not access show management, cashier, or administrative functions.
+Constraint
+Static
+Group 4
+BR-07 | Cashiers may issue tickets at the counter and look up bookings, but may not access visitor account management or administrative reporting. | Constraint | Static | Group 4
+BR-07
+Cashiers may issue tickets at the counter and look up bookings, but may not access visitor account management or administrative reporting.
+Constraint
+Static
+Group 4
+BR-08 | Show Managers may create, edit, and cancel shows, but may not access user account management or reporting functions. | Constraint | Static | Group 4
+BR-08
+Show Managers may create, edit, and cancel shows, but may not access user account management or reporting functions.
+Constraint
+Static
+Group 4
+BR-09 | Administrators may manage user accounts and generate reports, but may not cancel or delete a show; only a Show Manager may cancel a show. | Constraint | Static | Group 4
+BR-09
+Administrators may manage user accounts and generate reports, but may not cancel or delete a show; only a Show Manager may cancel a show. 
+Constraint
+Static
+Group 4
+BR-10 | A ticket purchase, whether made online or issued by a cashier, must not be completed if it would cause the number of reserved tickets for a show to exceed that show's seat capacity. | Constraint | Dynamic | Group 4
+BR-10
+A ticket purchase, whether made online or issued by a cashier, must not be completed if it would cause the number of reserved tickets for a show to exceed that show's seat capacity.
+Constraint
+Dynamic
+Group 4
+BR-11 | When a visitor or cashier proceeds to checkout, the system must temporarily lock the selected seats to prevent a concurrent transaction from overbooking the same show. | Action Enabler | Dynamic | Group 4
+BR-11
+When a visitor or cashier proceeds to checkout, the system must temporarily lock the selected seats to prevent a concurrent transaction from overbooking the same show. 
+Action Enabler
+Dynamic
+Group 4
+BR-12 | A seat lock expires 10 minutes after it is created. If it is not converted into a confirmed booking before it expires, the locked seats must be released back into the show's available capacity. | Action Enabler | Dynamic | Group 4
+BR-12
+A seat lock expires 10 minutes after it is created. If it is not converted into a confirmed booking before it expires, the locked seats must be released back into the show's available capacity.
+Action Enabler
+Dynamic
+Group 4
+BR-13 | If a payment attempt fails, any seat lock associated with that attempt must be released immediately. | Action Enabler | Dynamic | Group 4
+BR-13
+If a payment attempt fails, any seat lock associated with that attempt must be released immediately.
+Action Enabler
+Dynamic
+Group 4
+BR-14 | A show whose remaining seat capacity is zero must be marked ‘Fully Booked’ on the listings and detail pages, and its purchase option must be disabled. | Action Enabler | Dynamic | Group 4
+BR-14
+A show whose remaining seat capacity is zero must be marked ‘Fully Booked’ on the listings and detail pages, and its purchase option must be disabled.
+Action Enabler
+Dynamic
+Group 4
+BR-15 | The show listings and detail pages must reflect real-time seat capacity so that visitors cannot select a fully booked show. | Constraint | Dynamic | Group 4
+BR-15
+The show listings and detail pages must reflect real-time seat capacity so that visitors cannot select a fully booked show.
+Constraint
+Dynamic
+Group 4
+BR-16 | The seat capacity of an existing show may not be reduced below the number of tickets already sold for that show. | Constraint | Dynamic | Group 4
+BR-16
+The seat capacity of an existing show may not be reduced below the number of tickets already sold for that show.
+Constraint
+Dynamic
+Group 4
+BR-17 | Every completed booking, whether made online or issued at the counter, must be assigned a unique reference number. | Fact | Static | Group 4
+BR-17
+Every completed booking, whether made online or issued at the counter, must be assigned a unique reference number. 
+Fact
+Static
+Group 4
+BR-18 | A visitor may cancel a booking only if the show it is associated with has not yet taken place. | Constraint | Dynamic | Group 4
+BR-18
+A visitor may cancel a booking only if the show it is associated with has not yet taken place.
+Constraint
+Dynamic
+Group 4
+BR-19 | A booking that already has a status of ‘Cancelled’ cannot be cancelled again. | Constraint | Dynamic | Group 4
+BR-19
+A booking that already has a status of ‘Cancelled’ cannot be cancelled again.
+Constraint
+Dynamic
+Group 4
+BR-20 | When a booking is cancelled, the seat capacity of its associated show must be restored by the number of tickets released. | Action Enabler | Dynamic | Group 4
+BR-20
+When a booking is cancelled, the seat capacity of its associated show must be restored by the number of tickets released.
+Action Enabler
+Dynamic
+Group 4
+BR-21 | A cancelled booking is eligible for a full refund of the ticket price, processed manually by park staff outside the SMS within 5 business days of the cancellation request. Automated refund processing is out of scope for Release 1.0. | Constraint | Static | Group 4
+BR-21
+A cancelled booking is eligible for a full refund of the ticket price, processed manually by park staff outside the SMS within 5 business days of the cancellation request. Automated refund processing is out of scope for Release 1.0.
+Constraint
+Static
+Group 4
+BR-22 | The system must not store payment card data directly; all sensitive payment data is handled exclusively by the integrated payment gateway. | Constraint | Static | Group 4
+BR-22
+The system must not store payment card data directly; all sensitive payment data is handled exclusively by the integrated payment gateway.
+Constraint
+Static
+Group 4
+BR-23 | A booking may only be finalized after the payment gateway returns a successful payment confirmation. | Constraint | Dynamic | Group 4
+BR-23
+A booking may only be finalized after the payment gateway returns a successful payment confirmation.
+Constraint
+Dynamic
+Group 4
+BR-24 | Only a single payment gateway provider is integrated with the system for Release 1.0. | Fact | Static | Group 4
+BR-24
+Only a single payment gateway provider is integrated with the system for Release 1.0.
+Fact
+Static
+Group 4
+BR-25 | All ticket pricing and transactions use a single default currency. | Fact | Static | Group 4
+BR-25
+All ticket pricing and transactions use a single default currency. 
+Fact
+Static
+Group 4
+BR-26 | The total price of a ticket order is computed as the ticket price multiplied by the number of tickets selected. No additional taxes or fees apply; the computed amount is the final price charged. | Computation | Dynamic | Group 4
+BR-26
+The total price of a ticket order is computed as the ticket price multiplied by the number of tickets selected. No additional taxes or fees apply; the computed amount is the final price charged.
+Computation
+Dynamic
+Group 4
+BR-27 | Only a user with the Show Manager role may create, edit, or cancel a show. | Constraint | Static | Group 4
+BR-27
+Only a user with the Show Manager role may create, edit, or cancel a show.
+Constraint
+Static
+Group 4
+BR-28 | A show may be saved with a status of ‘Draft’ (not visible to visitors) or ‘Published’ (visible on the show listings). | Fact | Static | Group 4
+BR-28
+A show may be saved with a status of ‘Draft’ (not visible to visitors) or ‘Published’ (visible on the show listings).
+Fact
+Static
+Group 4
+BR-29 | If a new or edited show's date and time conflict with an existing show at the same venue, the system must warn the Show Manager before the show can be saved. | Action Enabler | Dynamic | Group 4
+BR-29
+If a new or edited show's date and time conflict with an existing show at the same venue, the system must warn the Show Manager before the show can be saved.
+Action Enabler
+Dynamic
+Group 4
+BR-30 | A show may only be edited or cancelled if it has not yet taken place. | Constraint | Dynamic | Group 4
+BR-30
+A show may only be edited or cancelled if it has not yet taken place.
+Constraint
+Dynamic
+Group 4
+BR-31 | A show that has already taken place cannot be cancelled. | Constraint | Dynamic | Group 4
+BR-31
+A show that has already taken place cannot be cancelled.
+Constraint
+Dynamic
+Group 4
+BR-32 | A show that already has a status of ‘Cancelled’ cannot be cancelled again. | Constraint | Dynamic | Group 4
+BR-32
+A show that already has a status of ‘Cancelled’ cannot be cancelled again.
+Constraint
+Dynamic
+Group 4
+BR-33 | When a show is cancelled, it must be removed from the visitor-facing listings and all associated seat reservations must be released. | Action Enabler | Dynamic | Group 4
+BR-33
+When a show is cancelled, it must be removed from the visitor-facing listings and all associated seat reservations must be released.
+Action Enabler
+Dynamic
+Group 4
+BR-34 | A single email address may be associated with only one visitor account. | Constraint | Static | Group 4
+BR-34
+A single email address may be associated with only one visitor account.
+Constraint
+Static
+Group 4
+BR-35 | A new self-registered account is automatically assigned the ‘Visitor’ role. | Fact | Static | Group 4
+BR-35
+A new self-registered account is automatically assigned the ‘Visitor’ role.
+Fact
+Static
+Group 4
+BR-36 | Passwords must be at least 8 characters long and contain at least one letter and one number. | Constraint | Static | Group 4
+BR-36
+Passwords must be at least 8 characters long and contain at least one letter and one number.
+Constraint
+Static
+Group 4
+BR-37 | Staff accounts (Show Manager, Cashier, Administrator) can only be created by an Administrator, and are issued a temporary password that must be changed at first login. | Constraint | Static | Group 4
+BR-37
+Staff accounts (Show Manager, Cashier, Administrator) can only be created by an Administrator, and are issued a temporary password that must be changed at first login.
+Constraint
+Static
+Group 4
+BR-38 | All administrative actions, including show creation, editing, and cancellation, and user account creation, editing, and deactivation, must be recorded in the system audit log. | Fact | Static | Group 4
+BR-38
+All administrative actions, including show creation, editing, and cancellation, and user account creation, editing, and deactivation, must be recorded in the system audit log. 
+Fact
+Static
+Group 4
+BR-39 | Transaction and attendance report generation must complete within 2 minutes. | Constraint | Dynamic | Group 4
+BR-39
+Transaction and attendance report generation must complete within 2 minutes.
+Constraint
+Dynamic
+Group 4

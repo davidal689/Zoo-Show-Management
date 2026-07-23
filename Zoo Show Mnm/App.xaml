@@ -1,0 +1,9 @@
+<Application x:Class="Zoo_Show_Mnm.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:Zoo_Show_Mnm"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <!-- Standard theme - keeping resources clean for basic WPF study -->
+    </Application.Resources>
+</Application>

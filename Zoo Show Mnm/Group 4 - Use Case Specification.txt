@@ -1,0 +1,837 @@
+Use Case
+USE CASES DOCUMENT
+for
+Show Management System,
+Release 1.0
+Version 1.0 Draft 4
+Prepared by Group 4 — SWR302
+Process Impact
+July 19, 2026
+Revision History
+Date | Reason(s) for Changes | Version
+Date
+Reason(s) for Changes
+Version
+24/06/2026 | Initial draft | 1.0 Draft 1
+24/06/2026
+Initial draft
+1.0 Draft 1
+29/06/2026 | Addition of use cases | 1.0 Draft 2
+29/06/2026
+Addition of use cases
+1.0 Draft 2
+16/07/2026 | Adjustments to Business Rules in place of business-objective-level citations | 1.0 Draft 3
+16/07/2026
+Adjustments to Business Rules in place of business-objective-level citations
+1.0 Draft 3
+19/07/2026 | Addition of use cases, one use case diagram, and mock-ups for 3 use cases (see Appendix A) | 1.0 Draft 4
+19/07/2026
+Addition of use cases, one use case diagram, and mock-ups for 3 use cases (see Appendix A)
+1.0 Draft 4
+Actor and Use Case Summary
+The following primary actors and use cases have been identified for the Show Management System, Release 1.0:
+Primary Actor | Use Cases
+Primary Actor
+Use Cases
+Park Visitor | UC-01 Browse Show Schedules, UC-02 View Show Details, UC-03 Register Visitor Account, UC-04 Purchase Tickets Online, UC-05 Cancel Online Booking
+Park Visitor
+UC-01 Browse Show Schedules, UC-02 View Show Details, UC-03 Register Visitor Account, UC-04 Purchase Tickets Online, UC-05 Cancel Online Booking
+Show Manager | UC-07 Create and Edit Show Listing, UC-08 Cancel a Show
+Show Manager
+UC-07 Create and Edit Show Listing, UC-08 Cancel a Show 
+Cashier | UC-06 Issue Ticket at Counter
+Cashier
+UC-06 Issue Ticket at Counter 
+Administrator | UC-09 Manage User Accounts and Generate Reports
+Administrator
+UC-09 Manage User Accounts and Generate Reports 
+System (SMS) | UC-10 Role-Based Access Enforcement
+System (SMS)
+UC-10 Role-Based Access Enforcement
+Fig. 1. Use case diagram for the Show Management System
+ID and Name: | UC-01 Browse Show Schedules
+ID and Name:
+UC-01 Browse Show Schedules
+Created by: | Group 4 | Date Created: | 24/06/2026
+Created by:
+Group 4
+Date Created:
+24/06/2026
+Primary Actor: | Park Visitor | Secondary Actor: | None
+Primary Actor:
+Park Visitor
+Secondary Actor:
+None
+Description: | A Park Visitor accesses the Show Management System through a standard web browser and views the list of available shows, including show names, dates, times, locations, and remaining seat capacity.
+Description:
+A Park Visitor accesses the Show Management System through a standard web browser and views the list of available shows, including show names, dates, times, locations, and remaining seat capacity.
+Trigger: | A Park Visitor navigates to the show listings page of the SMS.
+Trigger:
+A Park Visitor navigates to the show listings page of the SMS.
+Preconditions: | PRE-1. The SMS is accessible via a web browser.PRE-2. At least one show has been created and published by a Show Manager.
+Preconditions:
+PRE-1. The SMS is accessible via a web browser.
+PRE-2. At least one show has been created and published by a Show Manager.
+Postconditions: | POST-1. The visitor has viewed the current show schedule.POST-2. No data is modified as a result of this use case.
+Postconditions:
+POST-1. The visitor has viewed the current show schedule.
+POST-2. No data is modified as a result of this use case.
+Normal Flow: | 1.0 Browse Show Listings1. Visitor opens the SMS in a web browser.2. SMS displays the show listings page with all currently scheduled shows.3. Visitor can filter or scroll through shows by date or time. (see 1.1)4. SMS displays each show with its name, date, time, venue location, and available capacity.5. Visitor selects a show to view further detail. (see UC-02)
+Normal Flow:
+1.0 Browse Show Listings
+1. Visitor opens the SMS in a web browser.
+2. SMS displays the show listings page with all currently scheduled shows.
+3. Visitor can filter or scroll through shows by date or time. (see 1.1)
+4. SMS displays each show with its name, date, time, venue location, and available capacity.
+5. Visitor selects a show to view further detail. (see UC-02)
+Alternative Flows: | 1.1 No shows are currently scheduled1. SMS displays a message indicating that no shows are currently available.2. Use case ends.
+Alternative Flows:
+1.1 No shows are currently scheduled
+1. SMS displays a message indicating that no shows are currently available.
+2. Use case ends.
+Exceptions: | 1.0.E1 System is unavailable1. Browser displays a connection error.2. Visitor is advised to try again later.
+Exceptions:
+1.0.E1 System is unavailable
+1. Browser displays a connection error.
+2. Visitor is advised to try again later.
+Priority: | High
+Priority:
+High
+Frequency of Use: | High — expected to be the most frequently accessed page, especially during peak park hours.
+Frequency of Use:
+High — expected to be the most frequently accessed page, especially during peak park hours.
+Business Rules: | BR-15
+Business Rules:
+BR-15
+Other Information: | The show listing must reflect real-time capacity data to prevent visitors from selecting fully booked shows.
+Other Information:
+The show listing must reflect real-time capacity data to prevent visitors from selecting fully booked shows.
+Assumptions | Visitors are assumed to have access to a personal device or shared park terminal.
+Assumptions
+Visitors are assumed to have access to a personal device or shared park terminal. 
+ID and Name: | UC-02 View Show Details
+ID and Name:
+UC-02 View Show Details
+Created by: | Group 4 | Date Created: | 24/06/2026
+Created by:
+Group 4
+Date Created:
+24/06/2026
+Primary Actor: | Park Visitor | Secondary Actor: | None
+Primary Actor:
+Park Visitor
+Secondary Actor:
+None
+Description: | A Park Visitor selects a specific show from the show listings and views its full details, including show description, scheduled time, venue, duration, and remaining ticket availability.
+Description:
+A Park Visitor selects a specific show from the show listings and views its full details, including show description, scheduled time, venue, duration, and remaining ticket availability.
+Trigger: | A Park Visitor clicks on a show from the show listings page.
+Trigger:
+A Park Visitor clicks on a show from the show listings page.
+Preconditions: | PRE-1. The visitor is on the show listings page (see UC-01).PRE-2. The selected show exists and has been published.
+Preconditions:
+PRE-1. The visitor is on the show listings page (see UC-01).
+PRE-2. The selected show exists and has been published.
+Postconditions: | POST-1. The visitor has viewed the full details of the selected show.POST-2. No data is modified.
+Postconditions:
+POST-1. The visitor has viewed the full details of the selected show.
+POST-2. No data is modified.
+Normal Flow: | 1.0 View Specific Shows1. Visitor selects a show from the listings page. (see 1.0.E1)2. SMS displays the show detail page with: show name, description, date and time, venue/location, duration, and remaining seat count. (see 1.1)3. Visitor chooses to purchase a ticket (proceed to UC-04) or returns to the listings page.
+Normal Flow:
+1.0 View Specific Shows
+1. Visitor selects a show from the listings page. (see 1.0.E1)
+2. SMS displays the show detail page with: show name, description, date and time, venue/location, duration, and remaining seat count. (see 1.1)
+3. Visitor chooses to purchase a ticket (proceed to UC-04) or returns to the listings page.
+Alternative Flows: | 1.1 Show is fully booked1. SMS displays show details but marks the show as 'Fully Booked'.2. The purchase button is disabled.3. Visitor may return to the listings page.
+Alternative Flows:
+1.1 Show is fully booked
+1. SMS displays show details but marks the show as 'Fully Booked'.
+2. The purchase button is disabled.
+3. Visitor may return to the listings page.
+Exceptions: | 1.0.E1 Show no longer exists (cancelled after visitor opened listings)1. SMS displays a message that the show is no longer available.2. SMS redirects visitor to the listings page.
+Exceptions:
+1.0.E1 Show no longer exists (cancelled after visitor opened listings)
+1. SMS displays a message that the show is no longer available.
+2. SMS redirects visitor to the listings page.
+Priority: | High
+Priority:
+High
+Frequency of Use: | High — expected to be accessed prior to every ticket purchase.
+Frequency of Use:
+High — expected to be accessed prior to every ticket purchase.
+Business Rules: | BR-14
+Business Rules:
+BR-14
+Other Information: | Remaining seat count must be updated in real time to reflect concurrent purchases.
+Other Information:
+Remaining seat count must be updated in real time to reflect concurrent purchases.
+Assumptions | The visitor has already browsed the show listings (UC-01).
+Assumptions
+The visitor has already browsed the show listings (UC-01). 
+ID and Name: | UC-03 Register Visitor Account
+ID and Name:
+UC-03 Register Visitor Account
+Created by: | Group 4 | Date Created: | 25/06/2026
+Created by:
+Group 4
+Date Created:
+25/06/2026
+Primary Actor: | Park Visitor | Secondary Actor: | None
+Primary Actor:
+Park Visitor
+Secondary Actor:
+None
+Description: | A new Park Visitor creates an account in the SMS by providing their name, email address, and a password. Upon successful registration, the visitor can log in to manage bookings and purchase tickets online.
+Description:
+A new Park Visitor creates an account in the SMS by providing their name, email address, and a password. Upon successful registration, the visitor can log in to manage bookings and purchase tickets online.
+Trigger: | A Park Visitor selects the 'Register' option on the SMS.
+Trigger:
+A Park Visitor selects the 'Register' option on the SMS.
+Preconditions: | PRE-1. The visitor does not already have an account with the provided email address.PRE-2. The SMS registration page is accessible.
+Preconditions:
+PRE-1. The visitor does not already have an account with the provided email address.
+PRE-2. The SMS registration page is accessible.
+Postconditions: | POST-1. A new visitor account is created and stored in the system.POST-2. The visitor is logged in and redirected to the show listings page.
+Postconditions:
+POST-1. A new visitor account is created and stored in the system.
+POST-2. The visitor is logged in and redirected to the show listings page.
+Normal Flow: | 1.0 Register New Account1. Visitor navigates to the registration page.2. SMS displays the registration form requesting: full name, email address, and password.3. Visitor enters required information and submits the form.4. SMS validates the input fields. (see 1.0.E1, 1.0.E2)5. SMS creates the visitor account with the role of 'Visitor'.6. SMS logs the visitor in and redirects to the show listings page.
+Normal Flow:
+1.0 Register New Account
+1. Visitor navigates to the registration page.
+2. SMS displays the registration form requesting: full name, email address, and password.
+3. Visitor enters required information and submits the form.
+4. SMS validates the input fields. (see 1.0.E1, 1.0.E2)
+5. SMS creates the visitor account with the role of 'Visitor'.
+6. SMS logs the visitor in and redirects to the show listings page.
+Alternative Flows: | None
+Alternative Flows:
+None
+Exceptions: | 1.0.E1 Email address already registered1. SMS displays an error: 'An account with this email already exists.'2. Visitor is prompted to log in or use a different email.1.0.E2 Invalid or incomplete form input1. SMS highlights the fields with errors.2. Visitor corrects and resubmits.
+Exceptions:
+1.0.E1 Email address already registered
+1. SMS displays an error: 'An account with this email already exists.'
+2. Visitor is prompted to log in or use a different email.
+1.0.E2 Invalid or incomplete form input
+1. SMS highlights the fields with errors.
+2. Visitor corrects and resubmits.
+Priority: | High
+Priority:
+High
+Frequency of Use: | High/Moderate — expected to be High in the first weeks after launch, then declining as most visitors become registered.
+Frequency of Use:
+High/Moderate — expected to be High in the first weeks after launch, then declining as most visitors become registered.
+Business Rules: | BR-34, BR-35, BR-36
+Business Rules:
+BR-34, BR-35, BR-36
+Other Information: | Password must meet minimum security requirements (length, complexity). (see BR-36)
+Other Information:
+Password must meet minimum security requirements (length, complexity). (see BR-36)
+Assumptions | A single currency and default language are used; no email verification step is required in Release 1.0.
+Assumptions
+A single currency and default language are used; no email verification step is required in Release 1.0.
+ID and Name: | UC-04 Purchase Ticket(s) Online
+ID and Name:
+UC-04 Purchase Ticket(s) Online
+Created by: | Group 4 | Date Created: | 25/06/2026
+Created by:
+Group 4
+Date Created:
+25/06/2026
+Primary Actor: | Park Visitor | Secondary Actor: | Payment Gateway
+Primary Actor:
+Park Visitor
+Secondary Actor:
+Payment Gateway
+Description: | A logged-in Park Visitor selects a show and purchases one or more tickets online. The system reserves the selected seats, processes payment through the integrated payment gateway, and issues a booking confirmation with a unique reference number.
+Description:
+A logged-in Park Visitor selects a show and purchases one or more tickets online. The system reserves the selected seats, processes payment through the integrated payment gateway, and issues a booking confirmation with a unique reference number.
+Trigger: | A Park Visitor selects 'Buy Ticket' on a show detail page.
+Trigger:
+A Park Visitor selects 'Buy Ticket' on a show detail page.
+Preconditions: | PRE-1. Visitor is logged in to their SMS account.PRE-2. The selected show has remaining seat capacity.PRE-3. The payment gateway is operational.
+Preconditions:
+PRE-1. Visitor is logged in to their SMS account.
+PRE-2. The selected show has remaining seat capacity.
+PRE-3. The payment gateway is operational.
+Postconditions: | POST-1. Ticket(s) are reserved under the visitor's account.POST-2. Show seat capacity is decremented accordingly.POST-3. A booking confirmation with a unique reference number is displayed and stored.POST-4. Payment is processed via the payment gateway.
+Postconditions:
+POST-1. Ticket(s) are reserved under the visitor's account.
+POST-2. Show seat capacity is decremented accordingly.
+POST-3. A booking confirmation with a unique reference number is displayed and stored.
+POST-4. Payment is processed via the payment gateway.
+Normal Flow: | 1.0 Online Ticket Purchase1. Visitor selects 'Buy Ticket' on the show detail page. (see 1.1)2. SMS displays ticket selection screen showing available seats and ticket price.3. Visitor selects the number of tickets and proceeds to checkout. (see 1.0.E1)4. SMS temporarily locks the selected seats to prevent concurrent overbooking. (see Ri-03)5. SMS displays order summary with show name, date, ticket count, and total price.6. Visitor reviews order and proceeds to payment.7. SMS redirects visitor to the payment gateway.8. Visitor enters payment details and confirms payment. (see 1.0.E3)9. Payment gateway returns a success confirmation to the SMS. (see 1.0.E2)10. SMS finalises the booking, stores the transaction, and releases the seat lock.11. SMS displays booking confirmation with a unique reference number.12. Visitor may return to show listings.
+Normal Flow:
+1.0 Online Ticket Purchase
+1. Visitor selects 'Buy Ticket' on the show detail page. (see 1.1)
+2. SMS displays ticket selection screen showing available seats and ticket price.
+3. Visitor selects the number of tickets and proceeds to checkout. (see 1.0.E1)
+4. SMS temporarily locks the selected seats to prevent concurrent overbooking. (see Ri-03)
+5. SMS displays order summary with show name, date, ticket count, and total price.
+6. Visitor reviews order and proceeds to payment.
+7. SMS redirects visitor to the payment gateway.
+8. Visitor enters payment details and confirms payment. (see 1.0.E3)
+9. Payment gateway returns a success confirmation to the SMS. (see 1.0.E2)
+10. SMS finalises the booking, stores the transaction, and releases the seat lock.
+11. SMS displays booking confirmation with a unique reference number.
+12. Visitor may return to show listings.
+Alternative Flows: | 1.1 Visitor is not logged in when clicking 'Buy Ticket'1. SMS redirects visitor to the login page.2. After successful login, SMS returns visitor to the show detail page.
+Alternative Flows:
+1.1 Visitor is not logged in when clicking 'Buy Ticket'
+1. SMS redirects visitor to the login page.
+2. After successful login, SMS returns visitor to the show detail page.
+Exceptions: | 1.0.E1 Insufficient remaining seats for requested ticket count1. SMS informs visitor of the maximum available tickets.2. Visitor adjusts quantity or cancels.1.0.E2 Payment gateway returns a failure1. SMS informs visitor that payment was unsuccessful.2. Seat lock is released.3. Visitor may retry or cancel.1.0.E3 Seat lock expires before payment is confirmed1. SMS notifies visitor that the session has timed out.2. Visitor must restart the purchase process.
+Exceptions:
+1.0.E1 Insufficient remaining seats for requested ticket count
+1. SMS informs visitor of the maximum available tickets.
+2. Visitor adjusts quantity or cancels.
+1.0.E2 Payment gateway returns a failure
+1. SMS informs visitor that payment was unsuccessful.
+2. Seat lock is released.
+3. Visitor may retry or cancel.
+1.0.E3 Seat lock expires before payment is confirmed
+1. SMS notifies visitor that the session has timed out.
+2. Visitor must restart the purchase process. 
+Priority: | High
+Priority:
+High
+Frequency of Use: | High — core revenue-generating use case; expected peak usage during morning and early afternoon park hours.
+Frequency of Use:
+High — core revenue-generating use case; expected peak usage during morning and early afternoon park hours.
+Business Rules: | BR-10, BR-11, BR-12, BR-13, BR-17, BR-22, BR-23, BR-26
+Business Rules:
+BR-10, BR-11, BR-12, BR-13, BR-17, BR-22, BR-23, BR-26
+Other Information: | The SMS must not store payment card data directly; all sensitive data is handled by the payment gateway (As-05, De-01). Seat locking timeout duration is 10 minutes from the time checkout begins (BR-12).
+Other Information:
+The SMS must not store payment card data directly; all sensitive data is handled by the payment gateway (As-05, De-01). Seat locking timeout duration is 10 minutes from the time checkout begins (BR-12).
+Assumptions | A single payment gateway is integrated (De-01). A single currency is used (As-05).
+Assumptions
+A single payment gateway is integrated (De-01). A single currency is used (As-05).
+ID and Name: | UC-05 Cancel Online Booking
+ID and Name:
+UC-05 Cancel Online Booking
+Created by: | Group 4 | Date Created: | 25/06/2026
+Created by:
+Group 4
+Date Created:
+25/06/2026
+Primary Actor: | Park Visitor | Secondary Actor: | None
+Primary Actor:
+Park Visitor
+Secondary Actor:
+None
+Description: | A logged-in Park Visitor cancels a previously made ticket booking through their account. The system updates the booking status, restores the seat capacity for the relevant show, and confirms the cancellation.
+Description:
+A logged-in Park Visitor cancels a previously made ticket booking through their account. The system updates the booking status, restores the seat capacity for the relevant show, and confirms the cancellation.
+Trigger: | A Park Visitor selects 'Cancel Booking' from their booking history in their account.
+Trigger:
+A Park Visitor selects 'Cancel Booking' from their booking history in their account.
+Preconditions: | PRE-1. Visitor is logged in to their SMS account.PRE-2. The visitor has at least one active booking.PRE-3. The show associated with the booking has not yet taken place.
+Preconditions:
+PRE-1. Visitor is logged in to their SMS account.
+PRE-2. The visitor has at least one active booking.
+PRE-3. The show associated with the booking has not yet taken place.
+Postconditions: | POST-1. The booking status is updated to 'Cancelled'.POST-2. The seat capacity for the affected show is restored.POST-3. The cancellation is recorded in the transaction log.
+Postconditions:
+POST-1. The booking status is updated to 'Cancelled'.
+POST-2. The seat capacity for the affected show is restored.
+POST-3. The cancellation is recorded in the transaction log.
+Normal Flow: | 1.0 Booking Cancelation1. Visitor navigates to their account booking history.2. SMS displays a list of the visitor's active bookings.3. Visitor selects a booking and chooses 'Cancel Booking'.4. SMS prompts the visitor to confirm the cancellation.5. Visitor confirms cancellation.6. SMS updates the booking status to 'Cancelled'.7. SMS restores the seat count for the corresponding show.8. SMS displays a cancellation confirmation message with the booking reference.
+Normal Flow:
+1.0 Booking Cancelation
+1. Visitor navigates to their account booking history.
+2. SMS displays a list of the visitor's active bookings.
+3. Visitor selects a booking and chooses 'Cancel Booking'.
+4. SMS prompts the visitor to confirm the cancellation.
+5. Visitor confirms cancellation.
+6. SMS updates the booking status to 'Cancelled'.
+7. SMS restores the seat count for the corresponding show.
+8. SMS displays a cancellation confirmation message with the booking reference.
+Alternative Flows: | 1.1 Visitor changes their mind and does not confirm cancellation1. SMS returns visitor to the booking detail page without changes.
+Alternative Flows:
+1.1 Visitor changes their mind and does not confirm cancellation
+1. SMS returns visitor to the booking detail page without changes.
+Exceptions: | 1.0.E1 Show has already taken place1. SMS displays the booking as non-cancellable.2. Cancel option is not available.1.0.E2 Booking is already cancelled1. SMS displays the booking with a 'Cancelled' status.2. No further action is taken.
+Exceptions:
+1.0.E1 Show has already taken place
+1. SMS displays the booking as non-cancellable.
+2. Cancel option is not available.
+1.0.E2 Booking is already cancelled
+1. SMS displays the booking with a 'Cancelled' status.
+2. No further action is taken.
+Priority: | Medium
+Priority:
+Medium
+Frequency of Use: | Low/Moderate — occasional use; may spike if a popular show is rescheduled or cancelled.
+Frequency of Use:
+Low/Moderate — occasional use; may spike if a popular show is rescheduled or cancelled.
+Business Rules: | BR-18, BR-19, BR-20, BR-21
+Business Rules:
+BR-18, BR-19, BR-20, BR-21
+Other Information: | Automated refund handling is out of scope for Release 1.0. Cancellation policy terms are to be defined by park management (Li-11).
+Other Information:
+Automated refund handling is out of scope for Release 1.0. Cancellation policy terms are to be defined by park management (Li-11).
+Assumptions | No automated refund processing is available in Release 1.0.
+Assumptions
+No automated refund processing is available in Release 1.0.
+ID and Name: | UC-06 Issue Ticket at Counter
+ID and Name:
+UC-06 Issue Ticket at Counter 
+Created by: | Group 4 | Date Created: | 25/06/2026
+Created by:
+Group 4
+Date Created:
+25/06/2026
+Primary Actor: | Cashier | Secondary Actor: | Payment Gateway
+Primary Actor:
+Cashier
+Secondary Actor:
+Payment Gateway
+Description: | A Cashier uses the SMS point-of-sale interface to assist a walk-in visitor at a physical park counter. The cashier selects an available show, specifies the ticket quantity, processes payment, and issues a booking confirmation with a reference number.
+Description:
+A Cashier uses the SMS point-of-sale interface to assist a walk-in visitor at a physical park counter. The cashier selects an available show, specifies the ticket quantity, processes payment, and issues a booking confirmation with a reference number.
+Trigger: | A walk-in visitor approaches the ticketing counter and requests tickets for a show.
+Trigger:
+A walk-in visitor approaches the ticketing counter and requests tickets for a show.
+Preconditions: | PRE-1. Cashier is logged in to the SMS with the Cashier role.PRE-2. The requested show has remaining seat capacity.PRE-3. The payment gateway is operational.
+Preconditions:
+PRE-1. Cashier is logged in to the SMS with the Cashier role.
+PRE-2. The requested show has remaining seat capacity.
+PRE-3. The payment gateway is operational.
+Postconditions: | POST-1. Ticket(s) are reserved and linked to the transaction.POST-2. Show seat capacity is decremented accordingly.POST-3. A booking confirmation and reference number are generated.POST-4. Payment is recorded in the system.
+Postconditions:
+POST-1. Ticket(s) are reserved and linked to the transaction.
+POST-2. Show seat capacity is decremented accordingly.
+POST-3. A booking confirmation and reference number are generated.
+POST-4. Payment is recorded in the system.
+Normal Flow: | 1.0 Counter Ticket Issuance1. Cashier logs in and accesses the cashier point-of-sale interface.2. Cashier searches for or selects the visitor's desired show. (see 1.1)3. SMS displays show details and available seat count.4. Cashier enters the number of tickets requested. (see 1.0.E1)5. SMS displays the order total.6. Cashier processes payment through the integrated payment gateway.7. Payment gateway confirms the transaction. (see 1.0.E2)8. SMS issues the booking and generates a reference number.9. Cashier provides the visitor with the reference number.
+Normal Flow:
+1.0 Counter Ticket Issuance
+1. Cashier logs in and accesses the cashier point-of-sale interface.
+2. Cashier searches for or selects the visitor's desired show. (see 1.1)
+3. SMS displays show details and available seat count.
+4. Cashier enters the number of tickets requested. (see 1.0.E1)
+5. SMS displays the order total.
+6. Cashier processes payment through the integrated payment gateway.
+7. Payment gateway confirms the transaction. (see 1.0.E2)
+8. SMS issues the booking and generates a reference number.
+9. Cashier provides the visitor with the reference number.
+Alternative Flows: | 1.1 Cashier looks up an existing booking for the visitor1. Cashier enters the visitor's reference number or name.2. SMS retrieves and displays the booking details.3. Use case ends (no new ticket issued).
+Alternative Flows:
+1.1 Cashier looks up an existing booking for the visitor
+1. Cashier enters the visitor's reference number or name.
+2. SMS retrieves and displays the booking details.
+3. Use case ends (no new ticket issued).
+Exceptions: | 1.0.E1 Requested tickets exceed remaining capacity1. SMS alerts the cashier of the maximum available tickets.2. Cashier informs the visitor and adjusts quantity or selects a different show.1.0.E2 Payment fails1. SMS notifies the cashier of the payment failure.2. Cashier informs the visitor and may retry or cancel.
+Exceptions:
+1.0.E1 Requested tickets exceed remaining capacity
+1. SMS alerts the cashier of the maximum available tickets.
+2. Cashier informs the visitor and adjusts quantity or selects a different show.
+1.0.E2 Payment fails
+1. SMS notifies the cashier of the payment failure.
+2. Cashier informs the visitor and may retry or cancel.
+Priority: | High
+Priority:
+High
+Frequency of Use: | High — During peak park hours, primary channel for walk-in visitors who do not use online ticketing.
+Frequency of Use:
+High — During peak park hours, primary channel for walk-in visitors who do not use online ticketing.
+Business Rules: | BR-07, BR-10, BR-13, BR-17, BR-23, BR-26
+Business Rules:
+BR-07, BR-10, BR-13, BR-17, BR-23, BR-26
+Other Information: | The cashier interface must be optimised for speed to meet the 1.5-minute transaction target (BO-03). Cashiers cannot access visitor account management or admin reporting.
+Other Information:
+The cashier interface must be optimised for speed to meet the 1.5-minute transaction target (BO-03). Cashiers cannot access visitor account management or admin reporting.
+Assumptions | Cashiers will have received basic system orientation prior to use (As-04).
+Assumptions
+Cashiers will have received basic system orientation prior to use (As-04). 
+ID and Name: | UC-07 Create and Edit Show Listing
+ID and Name:
+UC-07 Create and Edit Show Listing
+Created by: | Group 4 | Date Created: | 29/06/2026
+Created by:
+Group 4
+Date Created:
+29/06/2026
+Primary Actor: | Show Manager | Secondary Actor: | None
+Primary Actor:
+Show Manager
+Secondary Actor:
+None
+Description: | A Show Manager creates a new show listing in the SMS by entering show details including name, description, date, time, venue, and seat capacity. The manager may also edit an existing show listing to update any of these details.
+Description:
+A Show Manager creates a new show listing in the SMS by entering show details including name, description, date, time, venue, and seat capacity. The manager may also edit an existing show listing to update any of these details.
+Trigger: | A Show Manager selects 'Create New Show' or 'Edit Show' from the management interface.
+Trigger:
+A Show Manager selects 'Create New Show' or 'Edit Show' from the management interface.
+Preconditions: | PRE-1. Show Manager is logged in with the Show Manager role.PRE-2. For editing: the target show exists and has not yet taken place.
+Preconditions:
+PRE-1. Show Manager is logged in with the Show Manager role.
+PRE-2. For editing: the target show exists and has not yet taken place.
+Postconditions: | POST-1. A new show is created and published to the show listings (create flow).POST-2. The show details are updated and reflected immediately on the visitor-facing listings (edit flow).POST-3. The action is recorded in the system audit log.
+Postconditions:
+POST-1. A new show is created and published to the show listings (create flow).
+POST-2. The show details are updated and reflected immediately on the visitor-facing listings (edit flow).
+POST-3. The action is recorded in the system audit log.
+Normal Flow: | 1.0 Submit Show Details1. Show Manager navigates to the show management panel.2. For creation: Manager selects 'Create New Show'; for edit: Manager selects an existing show and chooses 'Edit'.3. SMS displays the show entry form with fields: show name, description, date, time, venue/location, and seat capacity.4. Manager fills in or updates the required fields. (see 1.0.E1)5. Manager submits the form. (see 1.1)6. SMS validates the input. (see 1.0.E2)7. SMS saves the show and publishes it to the visitor-facing listings.8. SMS confirms the action with a success message
+Normal Flow:
+1.0 Submit Show Details
+1. Show Manager navigates to the show management panel.
+2. For creation: Manager selects 'Create New Show'; for edit: Manager selects an existing show and chooses 'Edit'.
+3. SMS displays the show entry form with fields: show name, description, date, time, venue/location, and seat capacity.
+4. Manager fills in or updates the required fields. (see 1.0.E1)
+5. Manager submits the form. (see 1.1)
+6. SMS validates the input. (see 1.0.E2)
+7. SMS saves the show and publishes it to the visitor-facing listings.
+8. SMS confirms the action with a success message
+Alternative Flows: | 1.1 Manager saves as draft instead of publishing1. SMS saves the show with a 'Draft' status (not visible to visitors).2. Manager may publish later.
+Alternative Flows:
+1.1 Manager saves as draft instead of publishing
+1. SMS saves the show with a 'Draft' status (not visible to visitors).
+2. Manager may publish later.
+Exceptions: | 1.0.E1 Required fields are missing1. SMS highlights empty required fields.2. Manager completes the fields and resubmits.1.0.E2 Show date or time conflicts with an existing show at the same venue1. SMS warns the manager of the conflict.2. Manager adjusts the date, time, or venue and resubmits.
+Exceptions:
+1.0.E1 Required fields are missing
+1. SMS highlights empty required fields.
+2. Manager completes the fields and resubmits.
+1.0.E2 Show date or time conflicts with an existing show at the same venue
+1. SMS warns the manager of the conflict.
+2. Manager adjusts the date, time, or venue and resubmits.
+Priority: | High
+Priority:
+High
+Frequency of Use: | Moderate — used regularly by show managers before each season or when scheduling changes occur.
+Frequency of Use:
+Moderate — used regularly by show managers before each season or when scheduling changes occur.
+Business Rules: | BR-08, BR-16, BR-27, BR-28, BR-29, BR-30, BR-38
+Business Rules:
+BR-08, BR-16, BR-27, BR-28, BR-29, BR-30, BR-38
+Other Information: | Updates to seat capacity on an existing show must not reduce capacity below the number of tickets already sold. This validation must be enforced by the system.
+Other Information:
+Updates to seat capacity on an existing show must not reduce capacity below the number of tickets already sold. This validation must be enforced by the system.
+Assumptions | Show schedules are planned in advance and entered before tickets go on sale (As-03).
+Assumptions
+Show schedules are planned in advance and entered before tickets go on sale (As-03). 
+ID and Name: | UC-08 Cancel a Show
+ID and Name:
+UC-08 Cancel a Show
+Created by: | Group 4 | Date Created: | 29/06/2026
+Created by:
+Group 4
+Date Created:
+29/06/2026
+Primary Actor: | Show Manager | Secondary Actor: | None
+Primary Actor:
+Show Manager
+Secondary Actor:
+None
+Description: | A Show Manager cancels a scheduled show in the SMS. The system updates the show status to 'Cancelled', removes it from the visitor-facing listings, and restores all reserved seat capacity.
+Description:
+A Show Manager cancels a scheduled show in the SMS. The system updates the show status to 'Cancelled', removes it from the visitor-facing listings, and restores all reserved seat capacity.
+Trigger: | A Show Manager selects 'Cancel Show' from the show management panel.
+Trigger:
+A Show Manager selects 'Cancel Show' from the show management panel.
+Preconditions: | PRE-1. Show Manager is logged in with the Show Manager role.PRE-2. The target show exists and has not yet taken place.PRE-3. The show has a status of 'Published' or 'Draft'.
+Preconditions:
+PRE-1. Show Manager is logged in with the Show Manager role.
+PRE-2. The target show exists and has not yet taken place.
+PRE-3. The show has a status of 'Published' or 'Draft'.
+Postconditions: | POST-1. The show status is updated to 'Cancelled'.POST-2. The show is removed from the visitor-facing listings.POST-3. All seat reservations associated with the show are released.POST-4. The cancellation is recorded in the system audit log.
+Postconditions:
+POST-1. The show status is updated to 'Cancelled'.
+POST-2. The show is removed from the visitor-facing listings.
+POST-3. All seat reservations associated with the show are released.
+POST-4. The cancellation is recorded in the system audit log.
+Normal Flow: | 1.0 Cancel an Existing Show1. Show Manager navigates to the show management panel.2. Manager selects the show to be cancelled. (see 1.0.E1, 1.0.E2)3. Manager selects 'Cancel Show'.4. SMS prompts the manager to confirm the cancellation.5. Manager confirms. (see 1.1)6. SMS updates the show status to 'Cancelled'.7. SMS removes the show from visitor-facing listings.8. SMS releases all seat reservations for the cancelled show.9. SMS displays a confirmation message.
+Normal Flow:
+1.0 Cancel an Existing Show
+1. Show Manager navigates to the show management panel.
+2. Manager selects the show to be cancelled. (see 1.0.E1, 1.0.E2)
+3. Manager selects 'Cancel Show'.
+4. SMS prompts the manager to confirm the cancellation.
+5. Manager confirms. (see 1.1)
+6. SMS updates the show status to 'Cancelled'.
+7. SMS removes the show from visitor-facing listings.
+8. SMS releases all seat reservations for the cancelled show.
+9. SMS displays a confirmation message.
+Alternative Flows: | 1.1 Manager decides not to proceed1. Manager declines the confirmation prompt.2. SMS returns to the show detail page without changes.
+Alternative Flows:
+1.1 Manager decides not to proceed
+1. Manager declines the confirmation prompt.
+2. SMS returns to the show detail page without changes.
+Exceptions: | 1.0.E1 Show has already taken place1. SMS does not allow cancellation of past shows.2. Cancel option is not available for completed shows.1.0.E2 Show is already cancelled1. SMS displays the show as 'Cancelled'.2. No further action is taken.
+Exceptions:
+1.0.E1 Show has already taken place
+1. SMS does not allow cancellation of past shows.
+2. Cancel option is not available for completed shows.
+1.0.E2 Show is already cancelled
+1. SMS displays the show as 'Cancelled'.
+2. No further action is taken.
+Priority: | High
+Priority:
+High
+Frequency of Use: | Low — used only when operational circumstances require a show to be cancelled.
+Frequency of Use:
+Low — used only when operational circumstances require a show to be cancelled.
+Business Rules: | BR-08, BR-27, BR-30, BR-31, BR-32, BR-33, BR-38
+Business Rules:
+BR-08, BR-27, BR-30, BR-31, BR-32, BR-33, BR-38 
+Other Information: | Visitor notification for cancelled shows is out of scope for Release 1.0 and is planned for Release 1.1 via email/SMS notifications.
+Other Information:
+Visitor notification for cancelled shows is out of scope for Release 1.0 and is planned for Release 1.1 via email/SMS notifications.
+Assumptions | Refund processing for cancelled shows is handled outside the system in Release 1.0.
+Assumptions
+Refund processing for cancelled shows is handled outside the system in Release 1.0. 
+ID and Name: | UC-09 Manage User Accounts and Generate Reports
+ID and Name:
+UC-09 Manage User Accounts and Generate Reports
+Created by: | Group 4 | Date Created: | 29/06/2026
+Created by:
+Group 4
+Date Created:
+29/06/2026
+Primary Actor: | Administrator | Secondary Actor: | Water Park Management
+Primary Actor:
+Administrator
+Secondary Actor:
+Water Park Management
+Description: | An Administrator uses the admin dashboard to manage user accounts (create, edit, deactivate staff accounts) and to generate transaction and attendance reports for shows. This use case covers the centralized administrative functions of the SMS.
+Description:
+An Administrator uses the admin dashboard to manage user accounts (create, edit, deactivate staff accounts) and to generate transaction and attendance reports for shows. This use case covers the centralized administrative functions of the SMS.
+Trigger: | An Administrator logs in to the SMS admin dashboard.
+Trigger:
+An Administrator logs in to the SMS admin dashboard.
+Preconditions: | PRE-1. Administrator is logged in with the Admin role.PRE-2. For report generation: relevant transaction and attendance data exists in the system.
+Preconditions:
+PRE-1. Administrator is logged in with the Admin role.
+PRE-2. For report generation: relevant transaction and attendance data exists in the system.
+Postconditions: | POST-1 (User management): User account is created, updated, or deactivated as requested.POST-2 (Report generation): A report is generated and made available for viewing or export.POST-3. All administrative actions are recorded in the audit log.
+Postconditions:
+POST-1 (User management): User account is created, updated, or deactivated as requested.
+POST-2 (Report generation): A report is generated and made available for viewing or export.
+POST-3. All administrative actions are recorded in the audit log.
+Normal Flow: | 1.0 Performs Administrative Actions1. Administrator logs in and accesses the admin dashboard.2. SMS displays the dashboard with user management and reporting sections.3a. User management: Administrator creates, edits, or deactivates a staff account (Show Manager, Cashier, or Admin). (see 1.1)3b. Report generation: Administrator selects report type (transaction report or attendance report), specifies a date range, and requests the report.4. SMS processes the request and displays the result.5. For reports: SMS displays the report; Administrator may export it. (see 1.0.E1)6. Administrator confirms the action or navigates away.
+Normal Flow:
+1.0 Performs Administrative Actions
+1. Administrator logs in and accesses the admin dashboard.
+2. SMS displays the dashboard with user management and reporting sections.
+3a. User management: Administrator creates, edits, or deactivates a staff account (Show Manager, Cashier, or Admin). (see 1.1)
+3b. Report generation: Administrator selects report type (transaction report or attendance report), specifies a date range, and requests the report.
+4. SMS processes the request and displays the result.
+5. For reports: SMS displays the report; Administrator may export it. (see 1.0.E1)
+6. Administrator confirms the action or navigates away.
+Alternative Flows: | 1.1 Administrator creates a new staff account1. Admin fills in the account form with name, email, role, and temporary password. (see 1.1.E2)2. SMS creates the account with the assigned role.3. New staff member can log in and change their password
+Alternative Flows:
+1.1 Administrator creates a new staff account
+1. Admin fills in the account form with name, email, role, and temporary password. (see 1.1.E2)
+2. SMS creates the account with the assigned role.
+3. New staff member can log in and change their password
+Exceptions: | 1.0.E1 No data exists for the selected report date range1. SMS displays a message indicating no records found for the period.2. Administrator selects a different date range.1.1.E2 Email address already exists when creating a new user1. SMS alerts the administrator.2. Administrator corrects the input.
+Exceptions:
+1.0.E1 No data exists for the selected report date range
+1. SMS displays a message indicating no records found for the period.
+2. Administrator selects a different date range.
+1.1.E2 Email address already exists when creating a new user
+1. SMS alerts the administrator.
+2. Administrator corrects the input.
+Priority: | High
+Priority:
+High
+Frequency of Use: | Moderate — user management is infrequent; report generation is expected weekly or as needed by management.
+Frequency of Use:
+Moderate — user management is infrequent; report generation is expected weekly or as needed by management.
+Business Rules: | BR-02, BR-09, BR-37, BR-38, BR-39
+Business Rules:
+BR-02, BR-09, BR-37, BR-38, BR-39
+Other Information: | Report generation must complete within 2 minutes to meet BO-04. Administrators cannot delete shows — only Show Managers may cancel shows (UC-08).
+Other Information:
+Report generation must complete within 2 minutes to meet BO-04. Administrators cannot delete shows — only Show Managers may cancel shows (UC-08).
+Assumptions | At least one administrator account is designated before the system goes live (As-06).
+Assumptions
+At least one administrator account is designated before the system goes live (As-06). 
+ID and Name: | UC-10 Role-Based Access Enforcement
+ID and Name:
+UC-10 Role-Based Access Enforcement
+Created by: | Group 4 | Date Created: | 29/06/2026
+Created by:
+Group 4
+Date Created:
+29/06/2026
+Primary Actor: | System (SMS) | Secondary Actor: | Park VisitorShow ManagerCashierAdministrator(All user accounts)
+Primary Actor:
+System (SMS)
+Secondary Actor:
+Park Visitor
+Show Manager
+Cashier
+Administrator
+(All user accounts)
+Description: | The SMS automatically enforces role-based access control for all users. When any user attempts to access a feature or page, the system verifies their assigned role and either grants or denies access accordingly. This use case is triggered implicitly across all other use cases.
+Description:
+The SMS automatically enforces role-based access control for all users. When any user attempts to access a feature or page, the system verifies their assigned role and either grants or denies access accordingly. This use case is triggered implicitly across all other use cases.
+Trigger: | Any user attempts to access a feature, page, or action within the SMS.
+Trigger:
+Any user attempts to access a feature, page, or action within the SMS.
+Preconditions: | PRE-1. The user is logged in to the SMS.PRE-2. The user has been assigned a role (Visitor, Show Manager, Cashier, or Admin).
+Preconditions:
+PRE-1. The user is logged in to the SMS.
+PRE-2. The user has been assigned a role (Visitor, Show Manager, Cashier, or Admin).
+Postconditions: | POST-1. Access is granted if the user's role permits the requested action.POST-2. Access is denied and the user is notified if their role does not permit the action.POST-3. All denied access attempts are recorded in the system audit log.
+Postconditions:
+POST-1. Access is granted if the user's role permits the requested action.
+POST-2. Access is denied and the user is notified if their role does not permit the action.
+POST-3. All denied access attempts are recorded in the system audit log.
+Normal Flow: | 1.0 Verify User Access1. User attempts to access a feature or page. (see 1.1, 1.0.E1)2. SMS retrieves the user's assigned role from the session.3. SMS checks the role against the access control policy for the requested feature.4. Access is permitted — SMS loads the requested feature. (see 1.0.E2)
+Normal Flow:
+1.0 Verify User Access
+1. User attempts to access a feature or page. (see 1.1, 1.0.E1)
+2. SMS retrieves the user's assigned role from the session.
+3. SMS checks the role against the access control policy for the requested feature.
+4. Access is permitted — SMS loads the requested feature. (see 1.0.E2)
+Alternative Flows: | 1.1 User is not logged in1. SMS redirects user to the login page.2. After successful login, SMS re-evaluates access
+Alternative Flows:
+1.1 User is not logged in
+1. SMS redirects user to the login page.
+2. After successful login, SMS re-evaluates access
+Exceptions: | 1.0.E1 User's role does not permit access to the requested feature1. SMS displays an 'Access Denied' message.2. User is redirected to their role-appropriate home page.3. Denied access attempt is logged.1.0.E2 User's session has expired1. SMS invalidates the session.2. User is redirected to the login page.
+Exceptions:
+1.0.E1 User's role does not permit access to the requested feature
+1. SMS displays an 'Access Denied' message.
+2. User is redirected to their role-appropriate home page.
+3. Denied access attempt is logged.
+1.0.E2 User's session has expired
+1. SMS invalidates the session.
+2. User is redirected to the login page.
+Priority: | High
+Priority:
+High
+Frequency of Use: | Continuous — this check occurs on every page load and action request across all user sessions.
+Frequency of Use:
+Continuous — this check occurs on every page load and action request across all user sessions.
+Business Rules: | BR-01 through BR-09 (full role and access-control rule set); enforces access boundaries for all other use cases (UC-01 through UC-09)
+Business Rules:
+BR-01 through BR-09 (full role and access-control rule set); enforces access boundaries for all other use cases (UC-01 through UC-09)
+Other Information: | Role permissions summary:Visitor — browse shows, purchase and cancel own tickets, manage own account.Show Manager — create, edit, cancel shows.Cashier — issue tickets at counter, look up bookings.Admin — all of the above plus user management and report generation.
+Other Information:
+Role permissions summary:
+Visitor — browse shows, purchase and cancel own tickets, manage own account.
+Show Manager — create, edit, cancel shows.
+Cashier — issue tickets at counter, look up bookings.
+Admin — all of the above plus user management and report generation.
+Assumptions | Role assignments are made at account creation and can only be changed by an Administrator.
+Assumptions
+Role assignments are made at account creation and can only be changed by an Administrator. 
+ID and Name: | UC-11 Account Login
+ID and Name:
+UC-11 Account Login
+Created by: | Group 4 | Date Created: | 19/07/2026
+Created by:
+Group 4
+Date Created:
+19/07/2026
+Primary Actor: | Park VisitorShow ManagerCashierAdministrator(All user accounts) | Secondary Actor: | None
+Primary Actor:
+Park Visitor
+Show Manager
+Cashier
+Administrator
+(All user accounts)
+Secondary Actor:
+None
+Description: | A registered user authenticates into the Show Management System (SMS) using their email address and password to establish a session and access role-specific features.
+Description:
+A registered user authenticates into the Show Management System (SMS) using their email address and password to establish a session and access role-specific features.
+Trigger: | A user navigates to the login page manually, or the system redirects an unauthenticated user attempting to access a restricted feature to the login page.
+Trigger:
+A user navigates to the login page manually, or the system redirects an unauthenticated user attempting to access a restricted feature to the login page.
+Preconditions: | PRE-1. The user has an existing account registered in the SMS.PRE-2. The SMS login page is accessible via a standard web browser.
+Preconditions:
+PRE-1. The user has an existing account registered in the SMS.
+PRE-2. The SMS login page is accessible via a standard web browser.
+Postconditions: | POST-1. The user is successfully authenticated.POST-2. A session is created storing the user’s single assigned role.POST-3. The user is granted access to the system according to their specific role. (see UC-10)
+Postconditions:
+POST-1. The user is successfully authenticated.
+POST-2. A session is created storing the user’s single assigned role.
+POST-3. The user is granted access to the system according to their specific role. (see UC-10)
+Normal Flow: | 1.0 Authenticate User1. User navigates to the SMS login page.2. SMS displays the login form requesting email and password.3. User enters their credentials and submit the form.4. SMS validates the submitted credentials against system record. (see 1.1, 1.0.E1, 1.0.E2)5. SMS retrieves the user’s assigned role and establishes a secure session.6. SMS redirects the user to their role-appropriate homepage or to the originally requested restricted feature.
+Normal Flow:
+1.0 Authenticate User
+1. User navigates to the SMS login page.
+2. SMS displays the login form requesting email and password.
+3. User enters their credentials and submit the form.
+4. SMS validates the submitted credentials against system record. (see 1.1, 1.0.E1, 1.0.E2)
+5. SMS retrieves the user’s assigned role and establishes a secure session.
+6. SMS redirects the user to their role-appropriate homepage or to the originally requested restricted feature.
+Alternative Flows: | 1.1 First login for a newly created staff account1. SMS detects that a Show Manager, Cashier, or Administrator is logging in with a system-generated temporary password.2. SMS prompts the staff user to change their password3. User submits a new password.4. SMS saves new password and proceeds to step 5 of NF1.0.
+Alternative Flows:
+1.1 First login for a newly created staff account
+1. SMS detects that a Show Manager, Cashier, or Administrator is logging in with a system-generated temporary password.
+2. SMS prompts the staff user to change their password
+3. User submits a new password.
+4. SMS saves new password and proceeds to step 5 of NF1.0.
+Exceptions: | 1.0.E1 Invalid credentials1. SMS displays an error message indicating the invalid field.2. SMS clears the password field and prompts the user to re-enter their credentials.1.0.E2 Deactivate staff account1. SMS detects the staff account has been deactivated by an Administrator.2. SMS denies access and displays an ‘Access Denied’ or ‘Account Inactive’ message.
+Exceptions:
+1.0.E1 Invalid credentials
+1. SMS displays an error message indicating the invalid field.
+2. SMS clears the password field and prompts the user to re-enter their credentials.
+1.0.E2 Deactivate staff account
+1. SMS detects the staff account has been deactivated by an Administrator.
+2. SMS denies access and displays an ‘Access Denied’ or ‘Account Inactive’ message.
+Priority: | High
+Priority:
+High
+Frequency of Use: | High— required for all secured ticket transactions, account management, and centralized staff operations.
+Frequency of Use:
+High— required for all secured ticket transactions, account management, and centralized staff operations.
+Business Rules: | BR-01, BR-03, BR-04, BR-36, BR-37
+Business Rules:
+BR-01, BR-03, BR-04, BR-36, BR-37
+Other Information: | The user's role retrieved during this use case is critical for UC-10 (Role-Based Access Enforcement), which automatically dictates feature accessibility across the system upon every page load or action request.
+Other Information:
+The user's role retrieved during this use case is critical for UC-10 (Role-Based Access Enforcement), which automatically dictates feature accessibility across the system upon every page load or action request.
+Assumptions | Role assignments (Visitor vs. specific Staff roles) are successfully linked to the user account at the time of creation and accurately reflect the user's proper authorization level.
+Assumptions
+Role assignments (Visitor vs. specific Staff roles) are successfully linked to the user account at the time of creation and accurately reflect the user's proper authorization level. 
+Appendix A: User Interface Mockups
+This appendix contains the initial user interface wireframes and mockups for the SMS. These visual layouts represent the front-end interface designs that fulfill the user-system interactions detailed in the functional flows.
+UI Mockup Mapping Reference
+The following table provides a quick-reference index connecting each user interface mockup to its respective primary Use Case:
+Figure Number | Mockup Screen Name | Primary Associated Use Case | Target Actor
+Figure Number
+Mockup Screen Name
+Primary Associated Use Case
+Target Actor
+Fig. A-1 | Visitor Registration Screen | UC-03 Register Visitor Account | Park Visitor
+Fig. A-1
+Visitor Registration Screen
+UC-03 Register Visitor Account
+Park Visitor
+Fig. A-2 | Central Account Login Screen | UC-11 Account Login | All User Accounts
+Fig. A-2
+Central Account Login Screen
+UC-11 Account Login
+All User Accounts
+Fig. A-3 | Show Listings & Search Dashboard | UC-01 Browse Show Schedules | Park Visitor
+Fig. A-3
+Show Listings & Search Dashboard
+UC-01 Browse Show Schedules
+Park Visitor
+Fig. A-1. Visitor Registration Screen
+Description: The user interface presented to a new public user attempting to establish a platform account.
+Key Interface Elements:
+Input text fields for Email, Password, Check Password, Full Name, and Phone Number.
+A primary Register action button to submit the initialization form.
+Flow Reference: Fulfills the display and data entry requirements outlined in UC-03 (Normal Flow 1.0, Steps 2 & 3).
+Fig. A-2. Central Account Login Screen
+Description: The gateway landing screen used to authenticate registered visitors and internal park staff members alike into secure sessions.
+Key Interface Elements:
+Input text fields for Email Address and security Password.
+A dual-button layout providing explicit access to either LOGIN validation or redirection to the Register workflow.
+Flow Reference: Directly supports the authentication interface requirements for UC-11 (Normal Flow 1.0, Steps 2 & 3), as well as the login redirection intercepts built into UC-04 (Alt Flow 1.1) and UC-10 (Alt Flow 1.1).
+Fig. A-3. Show Listings & Search Dashboard
+Description: The primary visitor landing dashboard optimized for discovering live entertainment events currently active at the water park.
+Key Interface Elements:
+A centralized Search input field paired with an interactive Filter dropdown category selector and an explicit execution Search button.
+A stacked modular feed layout dynamically rendering individual scheduled events (SHOW 1, SHOW 2, SHOW 3) displaying critical real-time location and availability data.
+Dedicated Detail action buttons for deep navigation per listing, an upper-right ACCOUNT dashboard shortcut, and bottom center pagination controls (< 1 >).
+Flow Reference: Fulfills the system requirements detailed across UC-01 (Normal Flow 1.0, Steps 2, 3, & 4) and serves as the starting baseline step for UC-02 (Normal Flow 1.0, Step 1).

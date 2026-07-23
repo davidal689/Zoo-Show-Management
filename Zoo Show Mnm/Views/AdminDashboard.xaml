@@ -1,0 +1,190 @@
+<UserControl x:Class="Zoo_Show_Mnm.Views.AdminDashboard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Zoo_Show_Mnm.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="700" d:DesignWidth="1000">
+    <Grid Background="#F0F0F0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Left Navigation Sidebar -->
+        <Border Grid.Column="0" Background="#E0E0E0" BorderBrush="DarkGray" BorderThickness="0,0,1,0" Padding="15">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0">
+                    <TextBlock Text="Admin Suite" FontSize="20" FontWeight="Bold" Foreground="Black" Margin="0,0,0,20"/>
+                    <RadioButton x:Name="TabStaff" Content="Quản lý nhân viên" IsChecked="True" Checked="Tab_Checked" Height="35" Margin="0,0,0,5"/>
+                    <RadioButton x:Name="TabReports" Content="Báo cáo doanh thu" Checked="Tab_Checked" Height="35" Margin="0,0,0,5"/>
+                    <RadioButton x:Name="TabAudit" Content="Nhật ký hoạt động" Checked="Tab_Checked" Height="35"/>
+                </StackPanel>
+
+                <Button Grid.Row="2" Content="Đăng xuất" Click="BtnLogout_Click" Height="30"/>
+            </Grid>
+        </Border>
+
+        <!-- Content Area -->
+        <Grid Grid.Column="1" Margin="20">
+            <!-- Tab: Manage Staff -->
+            <Grid x:Name="ContentStaff" Visibility="Visible">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="300"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="Quản Lý Tài Khoản Nhân Viên" FontSize="20" FontWeight="Bold" Grid.Row="0" Grid.ColumnSpan="2" Margin="0,0,0,15"/>
+
+                <DataGrid x:Name="GridUsers" Grid.Row="1" Grid.Column="0" Margin="0,0,15,0" AutoGenerateColumns="False" IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Họ và Tên" Binding="{Binding Name}" Width="*"/>
+                        <DataGridTextColumn Header="Username" Binding="{Binding Username}" Width="150"/>
+                        <DataGridTextColumn Header="Chức vụ" Binding="{Binding Role}" Width="100"/>
+                        <DataGridCheckBoxColumn Header="Mật khẩu tạm" Binding="{Binding IsTemporaryPassword}" Width="90"/>
+                        <DataGridCheckBoxColumn Header="Bị khóa" Binding="{Binding IsDeactivated}" Width="80"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <Button Grid.Row="2" Grid.Column="0" Content="Khóa / Mở khóa tài khoản" Click="BtnToggleDeactivate_Click" HorizontalAlignment="Left" Width="200" Height="32" Margin="0,10,0,0"/>
+
+                <!-- Add Staff Form -->
+                <Border Grid.Row="1" Grid.Column="1" Background="White" BorderBrush="DarkGray" BorderThickness="1" CornerRadius="5" Padding="15">
+                    <StackPanel>
+                        <TextBlock Text="Tạo Tài Khoản Nhân Viên" FontSize="14" FontWeight="Bold" Margin="0,0,0,15"/>
+
+                        <Label Content="Họ và Tên"/>
+                        <TextBox x:Name="TxtStaffName" Height="26" Margin="0,0,0,10"/>
+
+                        <Label Content="Tên đăng nhập (Username)"/>
+                        <TextBox x:Name="TxtStaffUsername" Height="26" Margin="0,0,0,10"/>
+
+                        <Label Content="Chức vụ"/>
+                        <ComboBox x:Name="CbStaffRole" Height="26" Margin="0,0,0,10">
+                            <ComboBoxItem Content="Show Manager"/>
+                            <ComboBoxItem Content="Cashier"/>
+                            <ComboBoxItem Content="Administrator"/>
+                        </ComboBox>
+
+                        <Label Content="Mật khẩu tạm thời"/>
+                        <TextBox x:Name="TxtStaffPassword" Height="26" Margin="0,0,0,15"/>
+
+                        <Button Content="Tạo Nhân Viên" Click="BtnCreateStaff_Click" Height="32" FontWeight="Bold"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <!-- Tab: Reports -->
+            <Grid x:Name="ContentReports" Visibility="Collapsed">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="Báo Cáo Hoạt Động" FontSize="20" FontWeight="Bold" Grid.Row="0" Margin="0,0,0,15"/>
+
+                <!-- Filters -->
+                <Grid Grid.Row="1" Margin="0,0,0,15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200"/>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                        <Label Content="Loại báo cáo"/>
+                        <ComboBox x:Name="CbReportType" SelectionChanged="CbReportType_SelectionChanged" Height="26">
+                            <ComboBoxItem Content="Báo cáo doanh thu"/>
+                            <ComboBoxItem Content="Tỉ lệ tham gia show"/>
+                        </ComboBox>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1" Margin="0,0,10,0">
+                        <Label Content="Từ ngày"/>
+                        <DatePicker x:Name="DpStart" Height="26"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2" Margin="0,0,10,0">
+                        <Label Content="Đến ngày"/>
+                        <DatePicker x:Name="DpEnd" Height="26"/>
+                    </StackPanel>
+
+                    <Button Content="Xuất báo cáo" Click="BtnGenerateReport_Click" Grid.Column="4" Width="120" Height="28" VerticalAlignment="Bottom"/>
+                </Grid>
+
+                <!-- Data Display -->
+                <Grid Grid.Row="2">
+                    <!-- Transactions Grid -->
+                    <DataGrid x:Name="GridRepTransactions" Visibility="Collapsed" AutoGenerateColumns="False" IsReadOnly="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Mã booking" Binding="{Binding ReferenceNumber}" Width="100"/>
+                            <DataGridTextColumn Header="Ngày đặt" Binding="{Binding BookingDate, StringFormat='MM/dd hh:mm tt'}" Width="130"/>
+                            <DataGridTextColumn Header="Tên show" Binding="{Binding Show.Name}" Width="*"/>
+                            <DataGridTextColumn Header="Số vé" Binding="{Binding TicketQuantity}" Width="60"/>
+                            <DataGridTextColumn Header="Doanh thu" Binding="{Binding TotalPrice, StringFormat='${0:F2}'}" Width="90"/>
+                            <DataGridTextColumn Header="Kênh" Binding="{Binding BookingChannel}" Width="80"/>
+                            <DataGridTextColumn Header="Trạng thái" Binding="{Binding BookingStatus}" Width="80"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <!-- Attendance Grid -->
+                    <DataGrid x:Name="GridRepAttendance" Visibility="Collapsed" AutoGenerateColumns="False" IsReadOnly="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Tên show" Binding="{Binding Name}" Width="*"/>
+                            <DataGridTextColumn Header="Địa điểm" Binding="{Binding Venue}" Width="150"/>
+                            <DataGridTextColumn Header="Thời gian" Binding="{Binding DateTime, StringFormat='MM/dd hh:mm tt'}" Width="150"/>
+                            <DataGridTextColumn Header="Tổng ghế" Binding="{Binding SeatCapacity}" Width="80"/>
+                            <DataGridTextColumn Header="Số vé bán" x:Name="ColSold" Width="100"/>
+                            <DataGridTextColumn Header="Tỉ lệ utilization" x:Name="ColUtil" Width="100"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+
+                <!-- Footer Stats -->
+                <Border Grid.Row="3" Background="White" BorderBrush="DarkGray" BorderThickness="1" CornerRadius="5" Padding="12" Margin="0,15,0,0">
+                    <Grid>
+                        <TextBlock x:Name="TxtReportStat1" Text="Tổng lượt đặt: 0" VerticalAlignment="Center" Foreground="Black" FontWeight="Bold"/>
+                        <TextBlock x:Name="TxtReportStat2" Text="Tổng doanh thu: $0.00" HorizontalAlignment="Right" FontSize="14" FontWeight="Bold" Foreground="Green"/>
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <!-- Tab: Audit Logs -->
+            <Grid x:Name="ContentAudit" Visibility="Collapsed">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="Nhật Ký Bảo Mật Hệ Thống" FontSize="20" FontWeight="Bold" Grid.Row="0" Margin="0,0,0,15"/>
+
+                <DataGrid x:Name="GridAudit" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Log ID" Binding="{Binding Id}" Width="70"/>
+                        <DataGridTextColumn Header="Thời gian" Binding="{Binding Timestamp, StringFormat='MM/dd/yyyy hh:mm:ss tt'}" Width="150"/>
+                        <DataGridTextColumn Header="Người thực hiện" Binding="{Binding ActorAccount.Name}" Width="150"/>
+                        <DataGridTextColumn Header="Username" Binding="{Binding ActorAccount.Username}" Width="150"/>
+                        <DataGridTextColumn Header="Hành động" Binding="{Binding ActionType}" Width="130"/>
+                        <DataGridTextColumn Header="Chi tiết đích" Binding="{Binding TargetEntity}" Width="*"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>
