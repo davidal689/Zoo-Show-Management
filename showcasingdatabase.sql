@@ -95,3 +95,7 @@ VALUES
 (N'Majestic Lions Feed & Show', N'Gặp gỡ chúa sơn lâm và các màn trình diễn hoang dã cực kỳ hấp dẫn.', DATEADD(day, 2, GETDATE()), N'Savannah Lookout', 50, 50, 20.00, 'Published'),
 (N'Secret Night Creatures (Draft)', N'Show diễn thử nghiệm các loài săn mồi ban đêm như dơi và cú.', DATEADD(day, 5, GETDATE()), N'Nocturnal Jungle Dome', 40, 40, 18.00, 'Draft');
 GO
+-- Đã bổ sung thêm cột SelectedSeats:
+ALTER TABLE Bookings ADD SelectedSeats VARCHAR(255) NULL;
+-- Đã bổ sung thêm cột SelectedSeats:
+ALTER TABLE SeatLocks ADD SelectedSeats VARCHAR(255) NULL;
